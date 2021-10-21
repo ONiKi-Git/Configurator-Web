@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 export class Scene extends THREE.Scene {
-  sceneData: Map<string, THREE.Object3D> = new Map<string, THREE.Object3D>();
+  data: Map<string, THREE.Object3D> = new Map<string, THREE.Object3D>();
 
   constructor() {
     super();
@@ -14,7 +14,7 @@ export class Scene extends THREE.Scene {
           `${element.uuid} is missing a name, but will still be added.`
         );
       } else {
-        this.sceneData.set(element.name, element);
+        this.data.set(element.name, element);
       }
       super.add(element);
     });
@@ -26,8 +26,8 @@ export class Scene extends THREE.Scene {
     object.forEach((element) => {
       if (element.name !== undefined) {
       } else {
-        if (this.sceneData.has(element.name)) {
-          this.sceneData.delete(element.name);
+        if (this.data.has(element.name)) {
+          this.data.delete(element.name);
         }
       }
       super.remove(element);

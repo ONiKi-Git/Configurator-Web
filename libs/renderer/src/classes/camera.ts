@@ -13,14 +13,13 @@ export class Camera extends PerspectiveCamera {
         this.lookAt(target)
     }
 
-    addOrbitControls(pan: boolean = false, rotate: boolean = false, zoom: boolean = false, autoRotate: boolean = false, autoRotateSpeed: number = 0) {
+    addOrbitControls(pan: boolean = false, rotate: boolean = false, zoom: boolean = false) {
         this.orbitControls = new OrbitControls(this, this.renderer.domElement);
     
         this.orbitControls.enablePan = pan;
         this.orbitControls.enableRotate = rotate;
         this.orbitControls.enableZoom = zoom;
 
-        this.orbitControls.autoRotate = autoRotate;
-        this.orbitControls.autoRotateSpeed = autoRotateSpeed;
+        return this;
     }
 }

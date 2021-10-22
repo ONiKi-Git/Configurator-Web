@@ -5,6 +5,20 @@ export class Scene extends THREE.Scene {
 
   constructor() {
     super();
+    
+    this.lighting();
+  }
+
+  private lighting() {
+    const dirLight = new THREE.DirectionalLight(0xffa95c);
+    dirLight.name = 'Directional Light';
+    dirLight.castShadow = true;
+    dirLight.position.set(-1, 1, 1);
+    this.add(dirLight);
+
+    const ambientLight = new THREE.HemisphereLight(0xffeeb1, 0x080820);
+    ambientLight.name = 'Ambient Light';
+    this.add(ambientLight);
   }
 
   add(...object: THREE.Object3D[]) {

@@ -3,7 +3,7 @@ import { Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 interface MeshData {
-  mesh?: THREE.Group;
+  group?: THREE.Group;
   url: string;
   name: string;
 }
@@ -22,7 +22,8 @@ export class MeshLibrary {
       new GLTFLoader().load(
         url,
         (gltf) => {
-          this.data.add({ mesh: gltf.scene, url: url, name: name });
+          this.data.add({ group: gltf.scene, url: url, name: name });
+          gltf.scene.name = name;
           subject.next(gltf.scene);
         },
         undefined,
@@ -31,7 +32,9 @@ export class MeshLibrary {
         }
       );
     } else {
-      subject.next(array[0].mesh);
+      subject.next(array[0].group);
     }
+
+    return subject;
   }
 }

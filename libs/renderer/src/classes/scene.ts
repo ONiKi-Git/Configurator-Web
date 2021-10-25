@@ -10,13 +10,13 @@ export class Scene extends THREE.Scene {
   }
 
   private lighting() {
-    const dirLight = new THREE.DirectionalLight(0xffa95c);
+    const dirLight = new THREE.DirectionalLight(0xffffff);
     dirLight.name = 'Directional Light';
     dirLight.castShadow = true;
-    dirLight.position.set(-1, 1, 1);
+    dirLight.position.set(1, 1, 1);
     this.add(dirLight);
 
-    const ambientLight = new THREE.HemisphereLight(0xffeeb1, 0x080820);
+    const ambientLight = new THREE.HemisphereLight(0xffffff, 0x080820, 1.5);
     ambientLight.name = 'Ambient Light';
     this.add(ambientLight);
   }

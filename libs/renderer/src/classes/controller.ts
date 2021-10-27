@@ -1,21 +1,33 @@
 import { Camera } from './camera';
 import { Scene } from './scene';
 import { Renderer } from './renderer';
-import { LoadingManager } from 'three';
+
+import { Bloom } from './bloom';
+import { Environment } from './environment';
 
 export class Controller {
   scene!: Scene;
-  loadingManager!: LoadingManager;
 
-  constructor(public renderer: Renderer, public camera: Camera) {
+  postProcess!: Bloom;
+  environment!: Environment;
+
+  constructor(public renderer: Renderer, public camera: Camera, url: string) {
     this.scene = new Scene();
     this.scene.add(camera);
 
-    this.animate();
+    this.environment = new Environment(renderer, url);
+
+    this.postProcess = new Bloom(renderer, this.scene, camera, {radius: 2, strength: 1});
+    this.updateScene();
   }
 
-  animate = () => {
-    requestAnimationFrame(this.animate);
-    this.renderer.render(this.scene, this.camera);
+  updateScene = () => {
+    requestAnimationFrame(this.updateScene);
+
+    this.postProcess.update();
+
+    this.camera.layers.enableAll();
+    this.renderer.setClearColor(0x202020);
+    this.postProcess.finalComposer.render();
   };
 }

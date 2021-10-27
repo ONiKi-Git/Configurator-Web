@@ -1,15 +1,9 @@
-import { Component, DebugElement, OnInit } from '@angular/core';
-import {
-  Controller,
-  Renderer,
-  Camera,
-  TextureLibrary,
-  TextureType,
-  MaterialLibrary,
-  MeshLibrary
-} from '@torbenvanassche/threejswrapper';
+import { Component, OnInit } from '@angular/core';
+import { replaceableMesh, TextureType } from '@torbenvanassche/threejswrapper';
+import { Subject } from 'rxjs';
 import * as THREE from 'three';
-import { MeshPhysicalMaterial, Vector3 } from 'three';
+import { Group, Mesh, MeshPhysicalMaterial } from 'three';
+import { ConfiguratorService } from './configurator.service';
 
 @Component({
   selector: 'oniki-root',
@@ -19,57 +13,104 @@ import { MeshPhysicalMaterial, Vector3 } from 'three';
 export class AppComponent implements OnInit {
   title = 'configurator';
 
-  controller!: Controller;
+  bulb: replaceableMesh;
 
-  textureLibrary!: TextureLibrary;
-  materialLibrary!: MaterialLibrary;
-  meshLibrary!: MeshLibrary;
+  constructor(private configurator: ConfiguratorService) {}
 
   ngOnInit() {
-    //Initialize renderer
-    const renderer = new Renderer(
-      window.innerWidth - window.innerWidth * 0.2,
-      window.innerHeight
+    this.configurator.initialize();
+
+    const material = new THREE.MeshPhysicalMaterial({
+      transparent: true,
+      //emissive: 0xccd627,
+      emissive: 0xf9f9f9,
+    });
+    this.configurator.materialLibrary.add('ground', material);
+
+    this.configurator.textureLibrary.load(
+      'glass_albedo',
+      'assets/meshes/LightBulb/textures/GLASS/Config_Lightbulb_V1_Bulb_Glass_BaseColor.png',
+      TextureType.DIFFUSE,
+      material
     );
 
-    //Create Libraries
-    this.textureLibrary = new TextureLibrary();
-    this.materialLibrary = new MaterialLibrary();
-    this.meshLibrary = new MeshLibrary();
+    this.configurator.textureLibrary.load(
+      'glass_roughness',
+      'assets/meshes/LightBulb/textures/GLASS/Config_Lightbulb_V1_Bulb_Glass_Roughness.png',
+      TextureType.ROUGHNESS,
+      material
+    );
+  }
 
-    //Create general purpose controller
-    this.controller = new Controller(renderer, new Camera(new THREE.Vector3(2, 2, 2), 75, renderer).addOrbitControls(false, true, true));
+  changeColor(ev: any) {
+    const m = this.configurator.materialLibrary.get('ground');
+    if (m) {
+      m.emissive = ev;
+    }
+  }
 
-    document.getElementById("three")!.appendChild(this.controller.renderer.domElement);
-    const material = new MeshPhysicalMaterial();
-    this.materialLibrary.add("ground", material);
-    
-    this.meshLibrary.load("Couch", "assets/couch.glb").subscribe(x => {
-      x.traverse(y => {
-        if(y.type === "Mesh") {
-          y.castShadow = true;
-        }
-      })
-      this.controller.scene.add(x);
-    });
-
-    this.textureLibrary.load('albedo', 'assets/WoodFlooring044_COL_2K.jpg', TextureType.DIFFUSE, material).subscribe(x => {
-      x.wrapS = THREE.RepeatWrapping;
-      x.wrapT = THREE.RepeatWrapping;
-      x.repeat.set(2, 2);
+  changeBloomStrength(event: any) {
+    this.configurator.controller.postProcess.setBloomParameters({
+      strength: event.value,
     });
   }
 
-  public AddFloor() {
-    var plane = new THREE.Mesh(
-      new THREE.PlaneGeometry(),
-      this.materialLibrary.get("ground")
-    );
-    plane.name = 'plane';
-    plane.lookAt(new Vector3(0, 1, 0));
-    plane.rotateZ(Math.PI / 2)
-    plane.scale.setScalar(4);
-    this.controller.scene.add(plane);
-    plane.receiveShadow = true;
+  changeBloomRadius(event: any) {
+    this.configurator.controller.postProcess.setBloomParameters({
+      radius: event.value,
+    });
+  }
+
+  async addCouch(data: Subject<Group>) {
+    data.subscribe((x) => {
+      this.configurator.controller.scene.add(x);
+      x.traverse((mesh) => {
+        if (mesh instanceof Mesh) {
+          switch (mesh.name) {
+            case 'Bulb_Glass':
+              const mat = this.configurator.materialLibrary.get('ground');
+              if (mat !== undefined)
+                ((mesh as Mesh).material as MeshPhysicalMaterial) = mat;
+              break;
+            case 'Bulb_Metal_Fitting':
+              ((mesh as Mesh).material as MeshPhysicalMaterial) =
+                new MeshPhysicalMaterial({
+                  color: 0x333333,
+                  metalness: 1,
+                  roughness: 0.5,
+                  emissiveIntensity: 0,
+                });
+              break;
+            case 'Bulb_Glassmechanism_Inside':
+              ((mesh as Mesh).material as MeshPhysicalMaterial) =
+                new MeshPhysicalMaterial({
+                  color: 0x222222,
+                  roughness: 0.5,
+                  emissiveIntensity: 0,
+                });
+              break;
+            case 'Bulb_Wireholder_V1':
+              ((mesh as Mesh).material as MeshPhysicalMaterial) =
+                new MeshPhysicalMaterial({
+                  color: 0x000000,
+                  metalness: 1,
+                  roughness: 0.5,
+                  emissiveIntensity: 0,
+                });
+              break;
+            case 'Bulb_Wire_V1':
+              ((mesh as Mesh).material as MeshPhysicalMaterial) =
+                new MeshPhysicalMaterial({
+                  color: 0x555555,
+                  emissiveIntensity: 0,
+                });
+              break;
+          }
+          this.configurator.controller.environment.texture.subscribe((x) => {
+            ((mesh as Mesh).material as MeshPhysicalMaterial).envMap = x;
+          });
+        }
+      });
+    });
   }
 }

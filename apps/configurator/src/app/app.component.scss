@@ -1,0 +1,12 @@
+.ui {
+    background-color: whitesmoke; 
+    width: 20%; 
+    height: 100vh; 
+    float: right; 
+    display: flex; 
+    flex-direction: column;
+}
+
+* {
+    overflow: hidden;
+}

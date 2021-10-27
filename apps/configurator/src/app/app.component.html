@@ -1,7 +1,35 @@
-<div style="width: 100vw; height: 100vh">
-    <div style="background-color: whitesmoke; width: 20%; height: 100%; float: right; display: flex; flex-direction: column;">
-        <img src="assets/ONiKi.png">
-        <button style="margin: 10px;" (click)="AddFloor()">DO</button>
-    </div>
-    <div id="three"></div> 
+<div class="ui" id="ui">
+  <img src="assets/ONiKi-cropped.png" style="padding: 20px" />
+  <oniki-model-loader-with-progress
+    [text]="'LOAD MODEL'"
+    (clicked)="addCouch($event)"
+    [url]="'assets/meshes/LightBulb/LightBulb.glb'"
+    [name]="'Light'"
+  ></oniki-model-loader-with-progress>
+  <oniki-color-swatches (color)="changeColor($event)"></oniki-color-swatches>
+
+  <div style="display: flex; align-items: center">
+    <p style="margin: 0px; margin-right: 10px; margin-left: 10px;">Strength</p>
+    <mat-slider
+      style="flex: auto;"
+      [min]="0"
+      [max]="1.5"
+      [step]="0.1"
+      [value]="2"
+      (input)="changeBloomStrength($event)"
+    ></mat-slider>
+  </div>
+
+  <div style="display: flex; align-items: center">
+    <p style="margin: 0px; margin-right: 10px; margin-left: 10px;">Radius</p>
+    <mat-slider
+      style="flex: auto"
+      [min]="0"
+      [max]="2"
+      [step]="0.1"
+      [value]="1"
+      (input)="changeBloomRadius($event)"
+    ></mat-slider>
+  </div>
 </div>
+<div id="three"></div>

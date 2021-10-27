@@ -6,3 +6,6 @@ export { Camera } from './classes/camera';
 export { TextureLibrary, TextureType } from './classes/texture-library';
 export { MaterialLibrary } from './classes/material-library';
 export { MeshLibrary } from './classes/mesh-library';
+export { replaceableMesh } from './classes/replace-geometry';
+
+export {Updateable} from './interfaces/updateable'

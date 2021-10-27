@@ -5,7 +5,7 @@ export class Scene extends THREE.Scene {
 
   constructor() {
     super();
-    
+
     this.lighting();
   }
 
@@ -16,14 +16,14 @@ export class Scene extends THREE.Scene {
     dirLight.position.set(1, 1, 1);
     this.add(dirLight);
 
-    const ambientLight = new THREE.HemisphereLight(0xffffff, 0x080820, 1.5);
+    const ambientLight = new THREE.HemisphereLight(0xffffff, 0x080820, 1);
     ambientLight.name = 'Ambient Light';
     this.add(ambientLight);
   }
 
   add(...object: THREE.Object3D[]) {
     object.forEach((element) => {
-      if (element.name === "") {
+      if (element.name === '') {
         console.warn(
           `${element.uuid} is missing a name, but will still be added.`
         );

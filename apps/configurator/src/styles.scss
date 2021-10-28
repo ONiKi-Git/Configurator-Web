@@ -1,5 +1,44 @@
+$oniki-default-color: #bbbbbb;
+$oniki-highlight-color: #f7be00;
+
 body {
-    margin: 0;
+  margin: 0;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+* {
+  font-family: Ruda;
+}
+
+//Angular material slider styles oniki
+.slider-top-level {
+  display: flex;
+  align-items: center;
+  p {
+    margin: 0px;
+  }
+  mat-slider {
+    flex: auto;
+
+    .mat-slider-thumb,
+    .mat-slider-thumb-label,
+    .mat-slider-track-fill {
+      background-color: $oniki-highlight-color !important;
+    }
+  }
+}
+
+mat-progress-bar {
+  //unfilled progress color
+  .mat-progress-bar-buffer {
+    background: $oniki-default-color;
+  }
+
+  //filled progress color
+  .mat-progress-bar-fill::after {
+    background: $oniki-highlight-color;
+  }
+}

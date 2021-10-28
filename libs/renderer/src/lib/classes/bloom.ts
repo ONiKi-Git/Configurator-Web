@@ -8,10 +8,8 @@ import {
   Scene,
   Mesh,
   MeshPhysicalMaterial,
-  Color,
 } from 'three';
-import { Camera, Renderer, Updateable } from '..';
-import { BloomParams } from '../interfaces/bloom-params';
+import { Updateable, Renderer, Camera, BloomParams} from '@torbenvanassche/threejswrapper';
 
 export class Bloom implements Updateable {
   private bloomComposer!: EffectComposer;
@@ -59,9 +57,12 @@ export class Bloom implements Updateable {
     this.finalComposer.addPass(finalPass);
   }
 
-  setBloomParameters(bloom: BloomParams = { strength: 2, radius: 1 }) {
-    if (bloom.strength) this.bloomPass.strength = bloom.strength;
-    if (bloom.radius) this.bloomPass.radius = bloom.radius;
+  setBloomStrength(str: number) {
+    this.bloomPass.strength = str;
+  }
+
+  setBloomRadius(radius: number) {
+    this.bloomPass.radius = radius;
   }
 
   update() {

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { replaceableMesh, TextureType } from '@torbenvanassche/threejswrapper';
-import { Subject } from 'rxjs';
+import { TextureType } from '@torbenvanassche/threejswrapper';
 import * as THREE from 'three';
 import { Group, Mesh, MeshPhysicalMaterial } from 'three';
 import { ConfiguratorService } from './configurator.service';
@@ -13,16 +12,15 @@ import { ConfiguratorService } from './configurator.service';
 export class AppComponent implements OnInit {
   title = 'configurator';
 
-  bulb: replaceableMesh;
+  bulbLoadProgress: number;
 
-  constructor(private configurator: ConfiguratorService) {}
+  constructor(public configurator: ConfiguratorService) {}
 
   ngOnInit() {
     this.configurator.initialize();
 
     const material = new THREE.MeshPhysicalMaterial({
       transparent: true,
-      //emissive: 0xccd627,
       emissive: 0xf9f9f9,
     });
     this.configurator.materialLibrary.add('ground', material);
@@ -42,6 +40,14 @@ export class AppComponent implements OnInit {
     );
   }
 
+  load() {
+    this.configurator
+      .loadModel('Light', 'assets/meshes/LightBulb/LightBulb.glb', (p) => {
+        this.bulbLoadProgress = p;
+      })
+      .subscribe((group) => this.addCouch(group));
+  }
+
   changeColor(ev: any) {
     const m = this.configurator.materialLibrary.get('ground');
     if (m) {
@@ -50,67 +56,61 @@ export class AppComponent implements OnInit {
   }
 
   changeBloomStrength(event: any) {
-    this.configurator.controller.postProcess.setBloomParameters({
-      strength: event.value,
-    });
+    this.configurator.controller.postProcess.setBloomStrength(event.value);
   }
 
   changeBloomRadius(event: any) {
-    this.configurator.controller.postProcess.setBloomParameters({
-      radius: event.value,
-    });
+    this.configurator.controller.postProcess.setBloomRadius(event.value);
   }
 
-  async addCouch(data: Subject<Group>) {
-    data.subscribe((x) => {
-      this.configurator.controller.scene.add(x);
-      x.traverse((mesh) => {
-        if (mesh instanceof Mesh) {
-          switch (mesh.name) {
-            case 'Bulb_Glass':
-              const mat = this.configurator.materialLibrary.get('ground');
-              if (mat !== undefined)
-                ((mesh as Mesh).material as MeshPhysicalMaterial) = mat;
-              break;
-            case 'Bulb_Metal_Fitting':
-              ((mesh as Mesh).material as MeshPhysicalMaterial) =
-                new MeshPhysicalMaterial({
-                  color: 0x333333,
-                  metalness: 1,
-                  roughness: 0.5,
-                  emissiveIntensity: 0,
-                });
-              break;
-            case 'Bulb_Glassmechanism_Inside':
-              ((mesh as Mesh).material as MeshPhysicalMaterial) =
-                new MeshPhysicalMaterial({
-                  color: 0x222222,
-                  roughness: 0.5,
-                  emissiveIntensity: 0,
-                });
-              break;
-            case 'Bulb_Wireholder_V1':
-              ((mesh as Mesh).material as MeshPhysicalMaterial) =
-                new MeshPhysicalMaterial({
-                  color: 0x000000,
-                  metalness: 1,
-                  roughness: 0.5,
-                  emissiveIntensity: 0,
-                });
-              break;
-            case 'Bulb_Wire_V1':
-              ((mesh as Mesh).material as MeshPhysicalMaterial) =
-                new MeshPhysicalMaterial({
-                  color: 0x555555,
-                  emissiveIntensity: 0,
-                });
-              break;
-          }
-          this.configurator.controller.environment.texture.subscribe((x) => {
-            ((mesh as Mesh).material as MeshPhysicalMaterial).envMap = x;
-          });
+  async addCouch(data: Group) {
+    this.configurator.controller.scene.add(data);
+    data.traverse((mesh) => {
+      if (mesh instanceof Mesh) {
+        switch (mesh.name) {
+          case 'Bulb_Glass':
+            const mat = this.configurator.materialLibrary.get('ground');
+            if (mat !== undefined)
+              ((mesh as Mesh).material as MeshPhysicalMaterial) = mat;
+            break;
+          case 'Bulb_Metal_Fitting':
+            ((mesh as Mesh).material as MeshPhysicalMaterial) =
+              new MeshPhysicalMaterial({
+                color: 0x333333,
+                metalness: 1,
+                roughness: 0.5,
+                emissiveIntensity: 0,
+              });
+            break;
+          case 'Bulb_Glassmechanism_Inside':
+            ((mesh as Mesh).material as MeshPhysicalMaterial) =
+              new MeshPhysicalMaterial({
+                color: 0x222222,
+                roughness: 0.5,
+                emissiveIntensity: 0,
+              });
+            break;
+          case 'Bulb_Wireholder_V1':
+            ((mesh as Mesh).material as MeshPhysicalMaterial) =
+              new MeshPhysicalMaterial({
+                color: 0x000000,
+                metalness: 1,
+                roughness: 0.5,
+                emissiveIntensity: 0,
+              });
+            break;
+          case 'Bulb_Wire_V1':
+            ((mesh as Mesh).material as MeshPhysicalMaterial) =
+              new MeshPhysicalMaterial({
+                color: 0x555555,
+                emissiveIntensity: 0,
+              });
+            break;
         }
-      });
+        this.configurator.controller.environment.texture.subscribe((x) => {
+          ((mesh as Mesh).material as MeshPhysicalMaterial).envMap = x;
+        });
+      }
     });
   }
 }

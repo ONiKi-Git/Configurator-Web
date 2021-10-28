@@ -1,7 +1,7 @@
 import { Vector3, PerspectiveCamera } from "three";
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { Renderer } from "./renderer";
+import { Renderer } from "@torbenvanassche/threejswrapper";
 
 export class Camera extends PerspectiveCamera {
     orbitControls!: OrbitControls;

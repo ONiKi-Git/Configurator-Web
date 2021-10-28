@@ -34,7 +34,13 @@
       "tags": [],
       "implicitDependencies": ["configurator"]
     },
+    "configurator3d": {
+      "tags": []
+    },
     "renderer": {
+      "tags": []
+    },
+    "ui": {
       "tags": []
     }
   }

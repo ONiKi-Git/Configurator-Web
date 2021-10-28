@@ -1,35 +1,38 @@
 <div class="ui" id="ui">
-  <img src="assets/ONiKi-cropped.png" style="padding: 20px" />
-  <oniki-model-loader-with-progress
+  <img src="assets/ONiKi.jpg" />
+  <oniki-loader-with-progress
     [text]="'LOAD MODEL'"
-    (clicked)="addCouch($event)"
-    [url]="'assets/meshes/LightBulb/LightBulb.glb'"
-    [name]="'Light'"
-  ></oniki-model-loader-with-progress>
-  <oniki-color-swatches (color)="changeColor($event)"></oniki-color-swatches>
+    (clicked)="this.load()"
+    [loadProgress]="bulbLoadProgress"
+  ></oniki-loader-with-progress>
 
-  <div style="display: flex; align-items: center">
-    <p style="margin: 0px; margin-right: 10px; margin-left: 10px;">Strength</p>
-    <mat-slider
-      style="flex: auto;"
-      [min]="0"
-      [max]="1.5"
-      [step]="0.1"
-      [value]="2"
-      (input)="changeBloomStrength($event)"
-    ></mat-slider>
-  </div>
+  <mat-expansion-panel hideToggle [expanded]=true>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Bloom settings
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="slider-top-level">
+      <p>STRENGTH</p>
+      <mat-slider
+        [min]="0"
+        [max]="1.5"
+        [step]="0.1"
+        [value]="2"
+        (input)="changeBloomStrength($event)"
+      ></mat-slider>
+    </div>
 
-  <div style="display: flex; align-items: center">
-    <p style="margin: 0px; margin-right: 10px; margin-left: 10px;">Radius</p>
-    <mat-slider
-      style="flex: auto"
-      [min]="0"
-      [max]="2"
-      [step]="0.1"
-      [value]="1"
-      (input)="changeBloomRadius($event)"
-    ></mat-slider>
-  </div>
+    <div class="slider-top-level">
+      <p>RADIUS</p>
+      <mat-slider
+        [min]="0"
+        [max]="2"
+        [step]="0.1"
+        [value]="1"
+        (input)="changeBloomRadius($event)"
+      ></mat-slider>
+    </div>
+  </mat-expansion-panel>
 </div>
 <div id="three"></div>

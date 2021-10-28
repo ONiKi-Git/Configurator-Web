@@ -15,6 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@oniki/configurator3d": ["libs/configurator3d/src/index.ts"],
+      "@oniki/ui": ["libs/ui/src/index.ts"],
       "@torbenvanassche/threejswrapper": ["libs/renderer/src/index.ts"]
     }
   },

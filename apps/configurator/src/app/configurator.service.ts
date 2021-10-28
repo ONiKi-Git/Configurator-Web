@@ -7,8 +7,8 @@ import {
   Renderer,
   TextureLibrary,
 } from '@torbenvanassche/threejswrapper';
-import { fromEvent } from 'rxjs';
-import { Vector3 } from 'three';
+import { fromEvent, ReplaySubject } from 'rxjs';
+import { Group, Vector3 } from 'three';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class ConfiguratorService {
   constructor() {
     fromEvent(window, 'resize').subscribe((evt: Event) => {
       this.controller.renderer.setSize(
-        window.innerWidth * 0.8,
+        window.innerWidth * 0.85,
         window.innerHeight
       );
 
@@ -37,7 +37,7 @@ export class ConfiguratorService {
 
   initialize() {
     //Initialize renderer
-    const renderer = new Renderer(window.innerWidth * 0.8, window.innerHeight);
+    const renderer = new Renderer(window.innerWidth * 0.85, window.innerHeight);
     const camera = new Camera(
       new Vector3(0, 0, 0.7),
       75,
@@ -55,5 +55,17 @@ export class ConfiguratorService {
     document
       .getElementById('three')
       ?.appendChild(this.controller.renderer.domElement);
+  }
+
+  public loadModel(
+    name: string,
+    url: string,
+    onProgress: (p: number) => void = () => {}
+  ) {
+    const loadedMesh = this.meshLibrary.load(name, url, (progress) => {
+      onProgress(progress);
+    });
+
+    return loadedMesh;
   }
 }

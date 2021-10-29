@@ -6,9 +6,10 @@ import { RendererModule } from '@torbenvanassche/threejswrapper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { UiModule } from '@oniki/ui';
+import { MaterialControllerComponent } from './material-controller/material-controller.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MaterialControllerComponent],
   imports: [BrowserModule, RendererModule, BrowserAnimationsModule, UiModule],
   providers: [],
   bootstrap: [AppComponent],

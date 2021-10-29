@@ -9,7 +9,10 @@ import {
   Mesh,
   MeshPhysicalMaterial,
 } from 'three';
-import { Updateable, Renderer, Camera, BloomParams} from '@torbenvanassche/threejswrapper';
+import { Updateable } from '../interfaces/updateable';
+import { Renderer } from './renderer';
+import { Camera } from './camera';
+import { BloomParams } from '../interfaces/bloom-params';
 
 export class Bloom implements Updateable {
   private bloomComposer!: EffectComposer;

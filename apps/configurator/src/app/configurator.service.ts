@@ -7,8 +7,8 @@ import {
   Renderer,
   TextureLibrary,
 } from '@torbenvanassche/threejswrapper';
-import { fromEvent, ReplaySubject } from 'rxjs';
-import { Group, Vector3 } from 'three';
+import { fromEvent } from 'rxjs';
+import { LoadingManager, Mesh, Vector3 } from 'three';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +16,16 @@ import { Group, Vector3 } from 'three';
 export class ConfiguratorService {
   controller: Controller;
 
+  loadingManager: LoadingManager = new LoadingManager();
+
+  static instance: ConfiguratorService;
+
   textureLibrary: TextureLibrary;
   materialLibrary: MaterialLibrary;
   meshLibrary: MeshLibrary;
 
   constructor() {
+    ConfiguratorService.instance = this;
     fromEvent(window, 'resize').subscribe((evt: Event) => {
       this.controller.renderer.setSize(
         window.innerWidth * 0.85,
@@ -47,7 +52,7 @@ export class ConfiguratorService {
     //Create Libraries
     this.textureLibrary = new TextureLibrary();
     this.materialLibrary = new MaterialLibrary();
-    this.meshLibrary = new MeshLibrary();
+    this.meshLibrary = new MeshLibrary(this.loadingManager);
 
     //Create general purpose controller
     this.controller = new Controller(renderer, camera, 'assets/studio_1k.exr');
@@ -58,14 +63,21 @@ export class ConfiguratorService {
   }
 
   public loadModel(
-    name: string,
     url: string,
     onProgress: (p: number) => void = () => {}
   ) {
-    const loadedMesh = this.meshLibrary.load(name, url, (progress) => {
+    const loadedGroup = this.meshLibrary.load(url.match(/([^\/]+)(?=\.\w+$)/)![0], url, (progress) => {
       onProgress(progress);
     });
 
-    return loadedMesh;
+    loadedGroup.subscribe((m) => {
+      m.traverse((x) => {
+        if (x instanceof Mesh) {
+          x.rotation.copy(m.rotation);
+        }
+      });
+    });
+
+    return loadedGroup;
   }
 }

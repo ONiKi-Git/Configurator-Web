@@ -1,7 +1,7 @@
 import { UnsignedByteType, PMREMGenerator, Texture } from 'three';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import { from, ReplaySubject } from 'rxjs';
-import { Renderer } from '@torbenvanassche/threejswrapper';
+import { Renderer } from './renderer';
 
 export class Environment {
     texture: ReplaySubject<Texture> = new ReplaySubject();

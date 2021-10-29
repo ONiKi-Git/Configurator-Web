@@ -9,6 +9,7 @@ export { MeshLibrary } from './lib/classes/mesh-library';
 export { Scene } from './lib/classes/scene';
 export { Environment } from './lib/classes/environment';
 export { Bloom } from './lib/classes/bloom';
+export {} from './lib/classes/dynamic-mesh'
 
 export { Updateable } from './lib/interfaces/updateable';
 export { BloomParams } from './lib/interfaces/bloom-params';

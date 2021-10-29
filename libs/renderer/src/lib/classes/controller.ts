@@ -1,4 +1,8 @@
-import { Scene, Renderer, Camera, Environment, Bloom } from '@torbenvanassche/threejswrapper';
+import { Bloom } from "./bloom";
+import { Camera } from "./camera";
+import { Environment } from "./environment";
+import { Renderer } from "./renderer";
+import { Scene } from "./scene";
 
 export class Controller {
   scene!: Scene;

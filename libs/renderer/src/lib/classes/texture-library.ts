@@ -1,4 +1,5 @@
 import { ReplaySubject } from 'rxjs';
+import * as THREE from 'three';
 import { LoadingManager, Texture, TextureLoader } from 'three';
 
 interface TextureData {
@@ -11,6 +12,7 @@ export enum TextureType {
   DIFFUSE,
   ROUGHNESS,
   NORMAL,
+  METAL,
   AO,
 }
 
@@ -35,6 +37,8 @@ export class TextureLibrary {
       this.loader.load(
         url,
         (texture) => {
+          texture.wrapS = THREE.RepeatWrapping;
+          texture.wrapT = THREE.RepeatWrapping;
           this.data.add({ texture: texture, url: url, name: name });
           subject.next(texture);
         },
@@ -49,6 +53,7 @@ export class TextureLibrary {
 
     if (material) {
       subject.subscribe((tex) => {
+        tex.flipY = false;
         switch (textureType) {
           case TextureType.DIFFUSE:
             material.map = tex;
@@ -57,11 +62,13 @@ export class TextureLibrary {
             material.roughnessMap = tex;
             break;
           case TextureType.NORMAL:
-            tex.flipY = true;
             material.normalMap = tex;
             break;
           case TextureType.AO:
             material.aoMap = tex;
+            break;
+          case TextureType.METAL:
+            material.metalnessMap = tex;
             break;
         }
 

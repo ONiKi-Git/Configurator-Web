@@ -97,53 +97,86 @@
         }
       }
     },
-    "configurator-e2e": {
-      "root": "apps/configurator-e2e",
-      "sourceRoot": "apps/configurator-e2e/src",
+    "marelec": {
       "projectType": "application",
+      "root": "apps/marelec",
+      "sourceRoot": "apps/marelec/src",
+      "prefix": "oniki",
       "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
-            "cypressConfig": "apps/configurator-e2e/cypress.json",
-            "devServerTarget": "configurator:serve:development",
-            "tsConfig": "apps/configurator-e2e/tsconfig.json"
+            "outputPath": "dist/apps/marelec",
+            "index": "apps/marelec/src/index.html",
+            "main": "apps/marelec/src/main.ts",
+            "polyfills": "apps/marelec/src/polyfills.ts",
+            "tsConfig": "apps/marelec/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/marelec/src/favicon.ico",
+              "apps/marelec/src/assets"
+            ],
+            "styles": ["apps/marelec/src/styles.scss"],
+            "scripts": []
           },
           "configurations": {
             "production": {
-              "devServerTarget": "configurator:serve:production"
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/marelec/src/environments/environment.ts",
+                  "with": "apps/marelec/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "marelec:build:production"
+            },
+            "development": {
+              "browserTarget": "marelec:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "lintFilePatterns": ["apps/configurator-e2e/**/*.{js,ts}"]
-          }
-        }
-      }
-    },
-    "configurator3d": {
-      "projectType": "library",
-      "root": "libs/configurator3d",
-      "sourceRoot": "libs/configurator3d/src",
-      "prefix": "oniki",
-      "architect": {
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/configurator3d"],
-          "options": {
-            "jestConfig": "libs/configurator3d/jest.config.js",
-            "passWithNoTests": true
+            "browserTarget": "marelec:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/configurator3d/src/**/*.ts",
-              "libs/configurator3d/src/**/*.html"
+              "apps/marelec/src/**/*.ts",
+              "apps/marelec/src/**/*.html"
             ]
           }
         }

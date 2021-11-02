@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Group } from 'three';
+import { Group, Mesh, Vector3 } from 'three';
 import { ConfiguratorService } from './configurator.service';
 import { BulbFitting } from './elements/bulb-fitting';
 import { BulbGlass } from './elements/bulb-glass';
 import { BulbInternal } from './elements/bulb-internal';
+import { Socket } from './elements/socket';
 
 @Component({
   selector: 'oniki-root',
@@ -15,14 +16,25 @@ export class AppComponent implements OnInit {
 
   bulbLoadProgress: number;
 
+  bulb: BulbGlass;
+
   constructor(public configurator: ConfiguratorService) {}
 
   ngOnInit() {
     this.configurator.initialize();
+
+    var socket = new Socket(
+      this.configurator,
+      'assets/meshes/Socket/Socket.glb'
+    );
+  }
+
+  loadOptional(name: string) {
+    this.bulb.replaceGeometry(name);
   }
 
   load() {
-    let bulb = new BulbGlass(
+    this.bulb = new BulbGlass(
       this.configurator,
       'assets/meshes/bulb-regular/bulb-glass.glb'
     ).add(
@@ -33,12 +45,21 @@ export class AppComponent implements OnInit {
       )
     );
 
+    this.configurator
+      .loadModel('assets/meshes/bulb-variant1/bulb-glass.glb')
+      .subscribe((x) => {
+        (x.children[0] as Mesh).geometry.rotateX(Math.PI);
+        (x.children[0] as Mesh).geometry.translate(0, 0, 0.19);
+
+        this.bulb.addOption('variant1', (x.children[0] as Mesh).geometry);
+      });
+
     this.configurator.loadingManager.onProgress = (_url, loaded, total) => {
       this.bulbLoadProgress = (loaded / total) * 100;
     };
 
     this.configurator.loadingManager.onLoad = () => {
-      this.configurator.controller.scene.add(bulb);
+      this.configurator.controller.scene.add(this.bulb);
     };
   }
 

@@ -22,6 +22,7 @@ export class BulbGlass extends DynamicMesh {
           this.material = this.configurator.materialLibrary.get('glass')!;
           this.rotation.copy(new Euler(-Math.PI / 2, 0, 0));
           this.geometry = (x as Mesh).geometry;
+          this.addOption('default', this.geometry);
         });
       });
   }

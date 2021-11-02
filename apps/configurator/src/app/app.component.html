@@ -1,16 +1,14 @@
 <div class="ui" id="ui">
   <img src="assets/ONiKi.jpg" />
   <oniki-loader-with-progress
-    [text]="'LOAD MODEL'"
+    [text]="'LOAD LAMP'"
     (clicked)="this.load()"
     [loadProgress]="bulbLoadProgress"
   ></oniki-loader-with-progress>
 
-  <mat-expansion-panel hideToggle [expanded]=true>
+  <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        Bloom settings
-      </mat-panel-title>
+      <mat-panel-title> Bloom settings </mat-panel-title>
     </mat-expansion-panel-header>
     <div class="slider-top-level">
       <p>STRENGTH</p>
@@ -33,6 +31,16 @@
         (input)="changeBloomRadius($event)"
       ></mat-slider>
     </div>
+    <oniki-hue-picker (color)="changeColor($event)"></oniki-hue-picker>
   </mat-expansion-panel>
+
+  <div style="display: flex;" *ngIf="bulb">
+    <button (click)="loadOptional('default')" style="width: 50%">
+      Load default
+    </button>
+    <button (click)="loadOptional('variant1')" style="width: 50%">
+      Load variant
+    </button>
+  </div>
 </div>
 <div id="three"></div>

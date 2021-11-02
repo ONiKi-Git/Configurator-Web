@@ -13,7 +13,7 @@ export class DynamicMesh extends Mesh {
   }
 
   addOption(id: string, geometry: BufferGeometry) {
-    this.geometries.set(id, this.geometry);
+    this.geometries.set(id, geometry);
   }
 
   replaceGeometry(meshID: string) {

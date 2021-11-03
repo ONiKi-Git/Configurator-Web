@@ -4,6 +4,7 @@ import { ConfiguratorService } from './configurator.service';
 import { BulbFitting } from './elements/bulb-fitting';
 import { BulbGlass } from './elements/bulb-glass';
 import { BulbInternal } from './elements/bulb-internal';
+import { Cable } from './elements/cable';
 import { Socket } from './elements/socket';
 
 @Component({
@@ -17,16 +18,22 @@ export class AppComponent implements OnInit {
   bulbLoadProgress: number;
 
   bulb: BulbGlass;
+  objectRoot: Mesh;
+
+  opened: boolean;
 
   constructor(public configurator: ConfiguratorService) {}
 
   ngOnInit() {
     this.configurator.initialize();
 
-    var socket = new Socket(
+    this.objectRoot = new Socket(
       this.configurator,
       'assets/meshes/Socket/Socket.glb'
     );
+
+    var cable = new Cable(this.configurator, 'assets/meshes/cable.glb');
+    this.objectRoot.add(cable);
   }
 
   loadOptional(name: string) {
@@ -59,7 +66,7 @@ export class AppComponent implements OnInit {
     };
 
     this.configurator.loadingManager.onLoad = () => {
-      this.configurator.controller.scene.add(this.bulb);
+      this.objectRoot.add(this.bulb);
     };
   }
 

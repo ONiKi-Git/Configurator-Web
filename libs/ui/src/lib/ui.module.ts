@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatButtonModule } from '@angular/material/button';
-import { ColorHueModule } from 'ngx-color/hue';
+import { ColorChromeModule } from 'ngx-color/chrome';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -11,15 +11,17 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { HuePickerComponent } from './components/color-swatches/hue-picker.component';
 import { ModelLoaderWithProgressComponent } from './components/loader-with-progress/loader-with-progress.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 const uiComponents = [
   MatProgressBarModule,
   MatButtonModule,
-  ColorHueModule,
+  ColorChromeModule,
   MatSliderModule,
   MatExpansionModule,
   MatGridListModule,
   FlexLayoutModule,
+  MatSidenavModule,
 ];
 
 @NgModule({
@@ -32,7 +34,8 @@ const uiComponents = [
     MatExpansionModule,
     MatGridListModule,
     FlexLayoutModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSidenavModule,
   ],
 })
 export class UiModule {}

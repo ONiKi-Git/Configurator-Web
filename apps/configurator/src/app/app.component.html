@@ -1,46 +1,70 @@
-<div class="ui" id="ui">
-  <img src="assets/ONiKi.jpg" />
-  <oniki-loader-with-progress
-    [text]="'LOAD LAMP'"
-    (clicked)="this.load()"
-    [loadProgress]="bulbLoadProgress"
-  ></oniki-loader-with-progress>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" [opened]="true">
+    <div class="ui" id="ui">
+      <img src="assets/ONiKi.jpg" />
+      <oniki-loader-with-progress
+        [text]="'LOAD LAMP'"
+        (clicked)="this.load()"
+        [loadProgress]="bulbLoadProgress"
+      ></oniki-loader-with-progress>
 
-  <mat-expansion-panel [expanded]="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title> Bloom settings </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div class="slider-top-level">
-      <p>STRENGTH</p>
-      <mat-slider
-        [min]="0"
-        [max]="1.5"
-        [step]="0.1"
-        [value]="2"
-        (input)="changeBloomStrength($event)"
-      ></mat-slider>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Bloom settings </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="slider-top-level">
+          <p>STRENGTH</p>
+          <mat-slider
+            [min]="0"
+            [max]="1.5"
+            [step]="0.1"
+            [value]="2"
+            (input)="changeBloomStrength($event)"
+          ></mat-slider>
+        </div>
+
+        <div class="slider-top-level">
+          <p>RADIUS</p>
+          <mat-slider
+            [min]="0"
+            [max]="2"
+            [step]="0.1"
+            [value]="1"
+            (input)="changeBloomRadius($event)"
+          ></mat-slider>
+        </div>
+        <oniki-hue-picker (color)="changeColor($event)"></oniki-hue-picker>
+      </mat-expansion-panel>
+
+      <div style="display: flex" *ngIf="bulb">
+        <button (click)="loadOptional('default')" style="width: 50%">
+          Load default
+        </button>
+        <button (click)="loadOptional('variant1')" style="width: 50%">
+          Load variant
+        </button>
+      </div>
+
+      <button mat-button (click)="sidenav.toggle()" style="position: absolute; color: whitesmoke;">
+        Close sidepanel
+      </button>
     </div>
+  </mat-sidenav>
 
-    <div class="slider-top-level">
-      <p>RADIUS</p>
-      <mat-slider
-        [min]="0"
-        [max]="2"
-        [step]="0.1"
-        [value]="1"
-        (input)="changeBloomRadius($event)"
-      ></mat-slider>
-    </div>
-    <oniki-hue-picker (color)="changeColor($event)"></oniki-hue-picker>
-  </mat-expansion-panel>
+  <mat-sidenav-content style="position: absolute">
+    <p>
+      <button
+        mat-button
+        (click)="sidenav.toggle()"
+        style="color: whitesmoke"
+        *ngIf="!sidenav.opened"
+      >
+        Open sidepanel
+      </button>
+    </p>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
-  <div style="display: flex;" *ngIf="bulb">
-    <button (click)="loadOptional('default')" style="width: 50%">
-      Load default
-    </button>
-    <button (click)="loadOptional('variant1')" style="width: 50%">
-      Load variant
-    </button>
-  </div>
+<div style="height: 100%; display: flex">
+  <div id="three" style="width: 100%"></div>
 </div>
-<div id="three"></div>

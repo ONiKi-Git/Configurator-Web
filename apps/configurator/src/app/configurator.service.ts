@@ -24,17 +24,18 @@ export class ConfiguratorService {
   materialLibrary: MaterialLibrary;
   meshLibrary: MeshLibrary;
 
+  canvas: HTMLElement;
+
   constructor() {
     ConfiguratorService.instance = this;
     fromEvent(window, 'resize').subscribe((evt: Event) => {
       this.controller.renderer.setSize(
-        window.innerWidth * 0.85,
+        window.innerWidth,
         window.innerHeight
       );
 
       this.controller.camera.aspect =
-        this.controller.renderer.domElement.width /
-        this.controller.renderer.domElement.height;
+        this.canvas!.offsetWidth / this.canvas!.offsetHeight;
 
       this.controller.camera.updateProjectionMatrix();
     });
@@ -42,9 +43,13 @@ export class ConfiguratorService {
 
   initialize() {
     //Initialize renderer
-    const renderer = new Renderer(window.innerWidth * 0.85, window.innerHeight);
+    this.canvas = document.getElementById('three')!;
+    const renderer = new Renderer(
+      this.canvas!.offsetWidth,
+      this.canvas!.offsetHeight
+    );
     const camera = new Camera(
-      new Vector3(0, 0, 0.7),
+      new Vector3(0, 1, 1.5),
       75,
       renderer
     ).addOrbitControls(false, true, true);
@@ -57,18 +62,19 @@ export class ConfiguratorService {
     //Create general purpose controller
     this.controller = new Controller(renderer, camera, 'assets/studio_1k.exr');
 
-    document
-      .getElementById('three')
-      ?.appendChild(this.controller.renderer.domElement);
+    console.log(this.canvas!.offsetWidth);
+    renderer.setSize(this.canvas!.offsetWidth, this.canvas!.offsetHeight);
+    this.canvas?.appendChild(this.controller.renderer.domElement);
   }
 
-  public loadModel(
-    url: string,
-    onProgress: (p: number) => void = () => {}
-  ) {
-    const loadedGroup = this.meshLibrary.load(url.match(/([^\/]+)(?=\.\w+$)/)![0], url, (progress) => {
-      onProgress(progress);
-    });
+  public loadModel(url: string, onProgress: (p: number) => void = () => {}) {
+    const loadedGroup = this.meshLibrary.load(
+      url.match(/([^\/]+)(?=\.\w+$)/)![0],
+      url,
+      (progress) => {
+        onProgress(progress);
+      }
+    );
 
     loadedGroup.subscribe((m) => {
       m.traverse((x) => {

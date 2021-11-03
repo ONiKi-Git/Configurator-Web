@@ -25,6 +25,7 @@
     "@angular/router": "^12.2.0",
     "@nrwl/angular": "12.10.0",
     "firebase": "^9.2.0",
+    "ismobilejs": "^1.1.1",
     "ngx-color": "^7.2.0",
     "rxfire": "^6.0.0",
     "rxjs": "~6.6.0",

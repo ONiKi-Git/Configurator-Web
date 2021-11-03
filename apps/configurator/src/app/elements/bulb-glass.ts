@@ -2,7 +2,7 @@ import { TextureType } from '@torbenvanassche/threejswrapper';
 import { DynamicMesh } from 'libs/renderer/src/lib/classes/dynamic-mesh';
 import { Subject } from 'rxjs';
 import * as THREE from 'three';
-import { Euler, Mesh } from 'three';
+import { Euler, Mesh, Vector3 } from 'three';
 import { ConfiguratorService } from '../configurator.service';
 
 export class BulbGlass extends DynamicMesh {
@@ -20,7 +20,8 @@ export class BulbGlass extends DynamicMesh {
       .subscribe((group) => {
         group.traverse((x) => {
           this.material = this.configurator.materialLibrary.get('glass')!;
-          this.rotation.copy(new Euler(-Math.PI / 2, 0, 0));
+          this.rotation.copy(new Euler(Math.PI, 0, 0));
+          this.position.add(new Vector3(0, 0, 0.1));
           this.geometry = (x as Mesh).geometry;
           this.addOption('default', this.geometry);
         });

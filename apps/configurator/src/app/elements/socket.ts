@@ -19,15 +19,15 @@ export class Socket extends Mesh {
           (this as Mesh).copy(x as Mesh);
           this.material = this.setMaterial();
           this.configurator.controller.scene.add(this);
-          this.lookAt(0, -1, 0)
+          this.rotateX(Math.PI / 2);
+          this.rotateZ(Math.PI);
           this.position.add(new Vector3(0, 0.215, 0));
         });
       });
   }
 
   private setMaterial() {
-    const glass =  new THREE.MeshPhysicalMaterial({
-    });
+    const glass = new THREE.MeshPhysicalMaterial({});
 
     this.configurator.textureLibrary.load(
       'copper_albedo',

@@ -2,12 +2,6 @@
   <mat-sidenav #sidenav mode="side" [opened]="true">
     <div class="ui" id="ui">
       <img src="assets/ONiKi.jpg" />
-      <oniki-loader-with-progress
-        [text]="'LOAD LAMP'"
-        (clicked)="this.load()"
-        [loadProgress]="bulbLoadProgress"
-      ></oniki-loader-with-progress>
-
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title> Bloom settings </mat-panel-title>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RaycastHandler } from '@torbenvanassche/threejswrapper';
 import { Group, Mesh, Vector3 } from 'three';
 import { ConfiguratorService } from './configurator.service';
 import { BulbFitting } from './elements/bulb-fitting';
@@ -34,6 +35,10 @@ export class AppComponent implements OnInit {
 
     var cable = new Cable(this.configurator, 'assets/meshes/cable.glb');
     this.objectRoot.add(cable);
+
+    this.load();
+
+    new RaycastHandler(this.configurator.controller);
   }
 
   loadOptional(name: string) {
@@ -66,7 +71,7 @@ export class AppComponent implements OnInit {
     };
 
     this.configurator.loadingManager.onLoad = () => {
-      this.objectRoot.add(this.bulb);
+      this.configurator.controller.scene.add(this.bulb);
     };
   }
 

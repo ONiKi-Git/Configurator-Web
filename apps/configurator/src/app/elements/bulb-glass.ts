@@ -19,11 +19,15 @@ export class BulbGlass extends DynamicMesh {
       })
       .subscribe((group) => {
         group.traverse((x) => {
-          this.material = this.configurator.materialLibrary.get('glass')!;
-          this.rotation.copy(new Euler(Math.PI, 0, 0));
-          this.position.add(new Vector3(0, 0, 0.1));
-          this.geometry = (x as Mesh).geometry;
-          this.addOption('default', this.geometry);
+          if (x instanceof Mesh) {
+            console.log(x.copy);
+            (this as Mesh).copy(x as Mesh);
+
+            this.material = this.configurator.materialLibrary.get('glass')!;
+            this.rotation.copy(new Euler(Math.PI, 0, 0));
+            this.position.add(new Vector3(0, 0, 0.2));
+            this.addOption('default', this.geometry);
+          }
         });
       });
   }

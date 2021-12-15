@@ -1,15 +1,10 @@
 import { BufferGeometry, Euler, Mesh, MeshPhysicalMaterial } from 'three';
 
-export class DynamicMesh extends Mesh {
+export class DynamicMesh {
   geometries: Map<string, BufferGeometry> = new Map<string, BufferGeometry>();
 
-  constructor(
-    geometry?: BufferGeometry,
-    material?: MeshPhysicalMaterial,
-    euler: Euler = new Euler()
-  ) {
-    super(geometry, material);
-    this.rotation.copy(euler);
+  constructor(public mesh: Mesh, euler: Euler = new Euler()) {
+    this.mesh.rotation.copy(euler);
   }
 
   addOption(id: string, geometry: BufferGeometry) {
@@ -18,9 +13,9 @@ export class DynamicMesh extends Mesh {
 
   replaceGeometry(meshID: string) {
     if (this.geometries.has(meshID)) {
-      this.geometry = this.geometries.get(meshID)!;
+      this.mesh.geometry = this.geometries.get(meshID)!;
     } else {
-      console.warn(`${meshID} was not found on ${this.name}.`);
+      console.warn(`${meshID} was not found on ${this.mesh.name}.`);
     }
   }
 }

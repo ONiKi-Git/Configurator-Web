@@ -1,7 +1,7 @@
 import { TextureType } from '@torbenvanassche/threejswrapper';
 import { Subject } from 'rxjs';
 import * as THREE from 'three';
-import { Mesh, MeshPhysicalMaterial, Vector3 } from 'three';
+import { Mesh, Vector3, Group } from 'three';
 import { ConfiguratorService } from '../configurator.service';
 
 export class Socket extends Mesh {
@@ -16,43 +16,46 @@ export class Socket extends Mesh {
       })
       .subscribe((group) => {
         group.traverse((x) => {
-          (this as Mesh).copy(x as Mesh);
-          this.material = this.setMaterial();
+          let mesh = x as Mesh;
+
+          this.add(mesh);
           this.configurator.controller.scene.add(this);
-          this.rotateX(Math.PI / 2);
-          this.rotateZ(Math.PI);
-          this.position.add(new Vector3(0, 0.215, 0));
+          this.rotateX(Math.PI / 4);
+          this.position.add(new Vector3(0, 0.1, 0));
         });
+
+        console.log(this.children);
+        (this.children[3] as Mesh).material = this.setKnurled();
       });
   }
 
-  private setMaterial() {
+  private setKnurled() {
     const glass = new THREE.MeshPhysicalMaterial({});
 
     this.configurator.textureLibrary.load(
       'copper_albedo',
-      'assets/textures/copper/INC_Socket_Socket_Base_Copper_BaseColor.png',
+      'assets/textures/copper/INC_Socket_Socket_Knurled_Copper_BaseColor.png',
       TextureType.DIFFUSE,
       glass
     );
 
     this.configurator.textureLibrary.load(
       'copper_roughness',
-      'assets/textures/copper/INC_Socket_Socket_Base_Copper_Roughness.png',
+      'assets/textures/copper/INC_Socket_Socket_Knurled_Copper_Roughness.png',
       TextureType.ROUGHNESS,
       glass
     );
 
     this.configurator.textureLibrary.load(
       'copper_roughness',
-      'assets/textures/copper/INC_Socket_Socket_Base_Copper_Metallic.png',
+      'assets/textures/copper/INC_Socket_Socket_Knurled_Copper_Metallic.png',
       TextureType.METAL,
       glass
     );
 
     this.configurator.textureLibrary.load(
       'copper_roughness',
-      'assets/textures/copper/INC_Socket_Socket_Base_Copper_Normal.png',
+      'assets/textures/copper/INC_Socket_Socket_Knurled_Copper_Normal.png',
       TextureType.NORMAL,
       glass
     );

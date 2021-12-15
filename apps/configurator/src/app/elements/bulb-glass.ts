@@ -9,7 +9,7 @@ export class BulbGlass extends DynamicMesh {
   loadProgress: Subject<number> = new Subject();
 
   constructor(private configurator: ConfiguratorService, url: string) {
-    super();
+    super(new Mesh());
 
     this.createMaterial();
 
@@ -20,13 +20,13 @@ export class BulbGlass extends DynamicMesh {
       .subscribe((group) => {
         group.traverse((x) => {
           if (x instanceof Mesh) {
-            console.log(x.copy);
-            (this as Mesh).copy(x as Mesh);
+            this.mesh.copy(x as Mesh);
 
-            this.material = this.configurator.materialLibrary.get('glass')!;
-            this.rotation.copy(new Euler(Math.PI, 0, 0));
-            this.position.add(new Vector3(0, 0, 0.2));
-            this.addOption('default', this.geometry);
+            this.mesh.material =
+              this.configurator.materialLibrary.get('glass')!;
+            this.mesh.rotation.copy(new Euler(0, Math.PI, 0));
+            this.mesh.position.add(new Vector3(0, 0, 0.2));
+            this.addOption('default', this.mesh.geometry);
           }
         });
       });

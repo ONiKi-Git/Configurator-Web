@@ -1,8 +1,8 @@
 import { Subject } from 'rxjs';
-import { Euler, Mesh, MeshPhysicalMaterial } from 'three';
+import { Euler, Mesh, MeshPhysicalMaterial, Group } from 'three';
 import { ConfiguratorService } from '../configurator.service';
 
-export class BulbFitting extends Mesh {
+export class BulbFitting extends Group {
   loadProgress: Subject<number> = new Subject();
 
   constructor(private configurator: ConfiguratorService, url: string) {
@@ -14,9 +14,14 @@ export class BulbFitting extends Mesh {
       })
       .subscribe((group) => {
         group.traverse((x) => {
-          (this as Mesh).copy(x as Mesh);
-          this.material = this.setMaterial();
+          let mesh = x as Mesh;
+
+          console.log(mesh.name)
+
+          this.add(mesh);
         });
+
+        (this.children[1] as Mesh).material = this.setMaterial();
       });
   }
 

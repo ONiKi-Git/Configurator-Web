@@ -3,11 +3,13 @@ import * as THREE from 'three';
 import { Mesh } from 'three';
 import { ConfiguratorService } from '../configurator.service';
 
-export class Cable extends Mesh {
+export class Cable {
   loadProgress: Subject<number> = new Subject();
+  mesh: Mesh = new Mesh();
 
   constructor(private configurator: ConfiguratorService, url: string) {
-    super();
+
+    console.log(this.configurator);
 
     this.configurator
       .loadModel(url, (p) => {
@@ -15,15 +17,15 @@ export class Cable extends Mesh {
       })
       .subscribe((group) => {
         group.traverse((x) => {
-          (this as Mesh).copy(x as Mesh);
-          this.material = this.setMaterial();
+          this.mesh.copy(x as Mesh);
+          this.mesh.material = this.setMaterial();
         });
       });
   }
 
   private setMaterial() {
-    const glass =  new THREE.MeshPhysicalMaterial({
-      color: 0x333333
+    const glass = new THREE.MeshPhysicalMaterial({
+      color: 0x333333,
     });
 
     return glass;

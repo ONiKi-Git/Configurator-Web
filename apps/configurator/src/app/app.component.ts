@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     );
 
     var cable = new Cable(this.configurator, 'assets/meshes/cable.glb');
-    this.objectRoot.add(cable);
+    this.objectRoot.add(cable.mesh);
 
     this.load();
 
@@ -49,7 +49,9 @@ export class AppComponent implements OnInit {
     this.bulb = new BulbGlass(
       this.configurator,
       'assets/meshes/bulb-regular/bulb-glass.glb'
-    ).add(
+    );
+    
+    this.bulb.mesh.add(
       new BulbFitting(this.configurator, 'assets/meshes/bulb-fitting.glb'),
       new BulbInternal(
         this.configurator,
@@ -71,7 +73,7 @@ export class AppComponent implements OnInit {
     };
 
     this.configurator.loadingManager.onLoad = () => {
-      this.configurator.controller.scene.add(this.bulb);
+      this.objectRoot.add(this.bulb.mesh);
     };
   }
 

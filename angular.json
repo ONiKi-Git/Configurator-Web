@@ -97,6 +97,91 @@
         }
       }
     },
+    "configurator2d": {
+      "projectType": "application",
+      "root": "apps/configurator2d",
+      "sourceRoot": "apps/configurator2d/src",
+      "prefix": "oniki",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/configurator2d",
+            "index": "apps/configurator2d/src/index.html",
+            "main": "apps/configurator2d/src/main.ts",
+            "polyfills": "apps/configurator2d/src/polyfills.ts",
+            "tsConfig": "apps/configurator2d/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/configurator2d/src/favicon.ico",
+              "apps/configurator2d/src/assets"
+            ],
+            "styles": ["apps/configurator2d/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/configurator2d/src/environments/environment.ts",
+                  "with": "apps/configurator2d/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "configurator2d:build:production"
+            },
+            "development": {
+              "browserTarget": "configurator2d:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "configurator2d:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/configurator2d/src/**/*.ts",
+              "apps/configurator2d/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "marelec": {
       "projectType": "application",
       "root": "apps/marelec",

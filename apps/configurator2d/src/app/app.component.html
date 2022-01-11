@@ -1,0 +1,21 @@
+<div style="display: flex;">
+  <div style="height: 100vh; width: 85%;" class="bg">
+    <img src="{{img}}" style="width: 100%;">
+  </div>
+  
+  <div style="width: 15%;">
+    <button style="height: 20px; width: 50%;" (click)="setTemperature('2700K')">2700K</button>
+    <button style="height: 20px; width: 50%; margin-bottom: 10px;" (click)="setTemperature('5000K')">5000K</button>
+
+    <button style="height: 20px; width: 33%;" (click)="setColor('Black')">Black</button>
+    <button style="height: 20px; width: 33%;" (click)="setColor('Copper')">Copper</button>
+    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setColor('White')">White</button>
+
+    <button style="height: 20px; width: 50%;" (click)="setAmount('Double')">Double</button>
+    <button style="height: 20px; width: 50%; margin-bottom: 10px;" (click)="setAmount('Solo')">Solo</button>
+
+    <button style="height: 20px; width: 33%;" (click)="setType('A')">A</button>
+    <button style="height: 20px; width: 33%;" (click)="setType('B')">B</button>
+    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setType('C')">C</button>
+  </div>
+</div>

@@ -30,6 +30,9 @@
     "configurator": {
       "tags": []
     },
+    "configurator2d": {
+      "tags": []
+    },
     "marelec": {
       "tags": []
     },

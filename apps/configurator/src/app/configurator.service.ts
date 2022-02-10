@@ -45,7 +45,7 @@ export class ConfiguratorService {
     });
   }
 
-  initialize() {
+  initialize(cameraPosition: Vector3 = new Vector3()) {
     //Initialize renderer
     this.canvas = document.getElementById('three')!;
     const renderer = new Renderer(
@@ -53,7 +53,7 @@ export class ConfiguratorService {
       this.canvas!.offsetHeight
     );
     const camera = new Camera(
-      new Vector3(0, 1, 1.5),
+      cameraPosition,
       75,
       renderer
     ).addOrbitControls(false, true, true);

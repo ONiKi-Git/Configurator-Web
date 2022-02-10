@@ -1,6 +1,88 @@
 {
   "version": 1,
   "projects": {
+    "aluro": {
+      "projectType": "application",
+      "root": "apps/aluro",
+      "sourceRoot": "apps/aluro/src",
+      "prefix": "oniki",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/aluro",
+            "index": "apps/aluro/src/index.html",
+            "main": "apps/aluro/src/main.ts",
+            "polyfills": "apps/aluro/src/polyfills.ts",
+            "tsConfig": "apps/aluro/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/aluro/src/favicon.ico", "apps/aluro/src/assets"],
+            "styles": ["apps/aluro/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/aluro/src/environments/environment.ts",
+                  "with": "apps/aluro/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "aluro:build:production"
+            },
+            "development": {
+              "browserTarget": "aluro:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "aluro:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/aluro/src/**/*.ts",
+              "apps/aluro/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "configurator": {
       "projectType": "application",
       "root": "apps/configurator",
@@ -329,6 +411,88 @@
           }
         }
       }
+    },
+    "vawat": {
+      "projectType": "application",
+      "root": "apps/vawat",
+      "sourceRoot": "apps/vawat/src",
+      "prefix": "oniki",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/vawat",
+            "index": "apps/vawat/src/index.html",
+            "main": "apps/vawat/src/main.ts",
+            "polyfills": "apps/vawat/src/polyfills.ts",
+            "tsConfig": "apps/vawat/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/vawat/src/favicon.ico", "apps/vawat/src/assets"],
+            "styles": ["apps/vawat/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/vawat/src/environments/environment.ts",
+                  "with": "apps/vawat/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "vawat:build:production"
+            },
+            "development": {
+              "browserTarget": "vawat:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "vawat:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/vawat/src/**/*.ts",
+              "apps/vawat/src/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {
@@ -352,7 +516,8 @@
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
+      "e2eTestRunner": "cypress",
+      "strict": false
     },
     "@nrwl/angular:library": {
       "style": "scss",

@@ -16,7 +16,6 @@ export class AppComponent {
   amount: string = "Double"
 
   updateValue() {
-    console.log(this.img)
     this.img = `assets/${this.temperature}_${this.amount}_${this.type}_${this.color}.png`;
   }
 

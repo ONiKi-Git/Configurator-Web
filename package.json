@@ -7,7 +7,8 @@
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "build2D": "nx build configurator2d --configuration production --base-href  https://oniki-agency.github.io/2d-configurator/ --skip-nx-cache"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +25,7 @@
     "@angular/platform-browser-dynamic": "^12.2.0",
     "@angular/router": "^12.2.0",
     "@nrwl/angular": "12.10.0",
+    "@svgdotjs/svg.js": "^3.1.1",
     "firebase": "^9.2.0",
     "ismobilejs": "^1.1.1",
     "ngx-color": "^7.2.0",

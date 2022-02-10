@@ -27,6 +27,9 @@
     ]
   },
   "projects": {
+    "aluro": {
+      "tags": []
+    },
     "configurator": {
       "tags": []
     },
@@ -40,6 +43,9 @@
       "tags": []
     },
     "ui": {
+      "tags": []
+    },
+    "vawat": {
       "tags": []
     }
   }

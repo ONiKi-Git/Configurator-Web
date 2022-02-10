@@ -1,6 +1,7 @@
 import { Bloom } from "./bloom";
 import { Camera } from "./camera";
 import { Environment } from "./environment";
+import { RaycastHandler } from "./raycaster";
 import { Renderer } from "./renderer";
 import { Scene } from "./scene";
 
@@ -9,14 +10,16 @@ export class Controller {
 
   postProcess!: Bloom;
   environment!: Environment;
+  raycaster!: RaycastHandler;
 
   constructor(public renderer: Renderer, public camera: Camera, url: string) {
     this.scene = new Scene();
     this.scene.add(camera);
 
     this.environment = new Environment(renderer, url);
-
     this.postProcess = new Bloom(renderer, this.scene, camera, {radius: 2, strength: 1});
+    this.raycaster = new RaycastHandler(this);
+
     this.updateScene();
   }
 

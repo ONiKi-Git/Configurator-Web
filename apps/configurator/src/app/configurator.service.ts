@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   Camera,
   Controller,
+  EventHandler,
   MaterialLibrary,
   MeshLibrary,
   Renderer,
@@ -23,6 +24,9 @@ export class ConfiguratorService {
   textureLibrary: TextureLibrary;
   materialLibrary: MaterialLibrary;
   meshLibrary: MeshLibrary;
+
+  //May need to be moved to Controller level to avoid conflicts between scenes
+  eventHandler: EventHandler;
 
   canvas: HTMLElement;
 
@@ -58,11 +62,16 @@ export class ConfiguratorService {
     this.textureLibrary = new TextureLibrary();
     this.materialLibrary = new MaterialLibrary();
     this.meshLibrary = new MeshLibrary(this.loadingManager);
+    this.eventHandler = new EventHandler();
 
     //Create general purpose controller
     this.controller = new Controller(renderer, camera, 'assets/studio_1k.exr');
 
-    console.log(this.canvas!.offsetWidth);
+    //Setup event dispatcher
+    this.controller.raycaster.result.subscribe(x => {
+      this.eventHandler.trigger(x.uuid);
+    })
+
     renderer.setSize(this.canvas!.offsetWidth, this.canvas!.offsetHeight);
     this.canvas?.appendChild(this.controller.renderer.domElement);
   }

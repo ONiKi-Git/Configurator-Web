@@ -3,11 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 
-import { UiModule } from '@oniki/ui';
-
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, UiModule],
+  imports: [BrowserModule],
   providers: [],
   bootstrap: [AppComponent],
 })

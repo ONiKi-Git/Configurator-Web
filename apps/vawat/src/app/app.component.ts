@@ -6,7 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  tiles = [1, 2, 3, 4, 6, 6, 6, 6];
-
-  title = 'marelec';
+  title = 'VaWat';
 }

@@ -11,6 +11,7 @@ export { Environment } from './lib/classes/environment';
 export { Bloom } from './lib/classes/bloom';
 export { DynamicMesh } from './lib/classes/dynamic-mesh';
 export { RaycastHandler } from './lib/classes/raycaster';
+export {EventHandler} from './lib/classes/event-handler'
 
 export { Updateable } from './lib/interfaces/updateable';
 export { BloomParams } from './lib/interfaces/bloom-params';

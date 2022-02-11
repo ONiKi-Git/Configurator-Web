@@ -6,9 +6,10 @@ import { RendererModule } from '@torbenvanassche/threejswrapper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { UiModule } from '@oniki/ui';
+import { SelectorComponent } from './selector/selector.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SelectorComponent],
   imports: [BrowserModule, RendererModule, BrowserAnimationsModule, UiModule],
   providers: [],
   bootstrap: [AppComponent],

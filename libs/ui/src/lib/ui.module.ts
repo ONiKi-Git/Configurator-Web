@@ -12,6 +12,9 @@ import { HuePickerComponent } from './components/color-swatches/hue-picker.compo
 import { ModelLoaderWithProgressComponent } from './components/loader-with-progress/loader-with-progress.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatSelectModule} from '@angular/material/select';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+
 
 const uiComponents = [
   MatProgressBarModule,
@@ -22,6 +25,9 @@ const uiComponents = [
   MatGridListModule,
   FlexLayoutModule,
   MatSidenavModule,
+  MatSelectModule ,
+  FormsModule,
+  ReactiveFormsModule
 ];
 
 @NgModule({
@@ -30,12 +36,7 @@ const uiComponents = [
   exports: [
     ModelLoaderWithProgressComponent,
     HuePickerComponent,
-    MatSliderModule,
-    MatExpansionModule,
-    MatGridListModule,
-    FlexLayoutModule,
-    MatButtonModule,
-    MatSidenavModule,
+    ...uiComponents
   ],
 })
 export class UiModule {}

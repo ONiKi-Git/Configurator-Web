@@ -11,6 +11,8 @@ interface TextureData {
 export enum TextureType {
   DIFFUSE,
   ROUGHNESS,
+  OPACITY,
+  EMISSIVE,
   NORMAL,
   METAL,
   AO,
@@ -69,6 +71,13 @@ export class TextureLibrary {
             break;
           case TextureType.METAL:
             material.metalnessMap = tex;
+            break;
+          case TextureType.EMISSIVE:
+            material.emissiveMap = tex;
+            break;
+          case TextureType.OPACITY:
+            material.alphaMap = tex;
+            material.transparent = true;
             break;
         }
 

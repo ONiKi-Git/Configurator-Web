@@ -6,12 +6,16 @@
         <mat-expansion-panel-header>
           <mat-panel-title> EXAMPLE TITLE </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="slider-top-level">
-          <p>EXAMPLE</p>
-        </div>
+        <oniki-selector [target]="head" default="Light_A"></oniki-selector>
+        <oniki-selector [target]="body" default="Body_Basic"></oniki-selector>
+        <oniki-selector [target]="legs" default="Legs_Roller"></oniki-selector>
       </mat-expansion-panel>
 
-      <button mat-button (click)="sidenav.toggle()" style="position: absolute; color: whitesmoke;">
+      <button
+        mat-button
+        (click)="sidenav.toggle()"
+        style="position: absolute; color: whitesmoke"
+      >
         Close sidepanel
       </button>
     </div>
@@ -19,7 +23,12 @@
 
   <mat-sidenav-content style="position: absolute">
     <p>
-      <button mat-button (click)="sidenav.toggle()" style="color: whitesmoke" *ngIf="!sidenav.opened">
+      <button
+        mat-button
+        (click)="sidenav.toggle()"
+        style="color: whitesmoke"
+        *ngIf="!sidenav.opened"
+      >
         Open sidepanel
       </button>
     </p>

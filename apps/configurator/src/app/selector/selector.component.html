@@ -1,0 +1,5 @@
+<mat-form-field appearance="fill" *ngIf="target !== undefined && target.options.length !== 0">
+    <mat-select [(value)]="selected" (valueChange)="updateValue()">
+      <mat-option *ngFor="let value of target.options" [value]="value">{{value}}</mat-option>
+    </mat-select>
+  </mat-form-field>

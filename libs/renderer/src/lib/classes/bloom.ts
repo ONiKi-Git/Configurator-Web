@@ -24,14 +24,14 @@ export class Bloom implements Updateable {
     private renderer: Renderer,
     private scene: Scene,
     private camera: Camera,
-    bloom: Partial<BloomParams> = { strength: 2, radius: 1 }
+    bloom: Partial<BloomParams> = { strength: 2, radius: 1, threshold: 0 }
   ) {
     const renderScene = new RenderPass(scene, camera);
     this.bloomPass = new UnrealBloomPass(
       new Vector2(renderer.domElement.width, renderer.domElement.height),
       bloom.strength!,
       bloom.radius!,
-      0
+      bloom.threshold!
     );
 
     this.bloomComposer = new EffectComposer(renderer);

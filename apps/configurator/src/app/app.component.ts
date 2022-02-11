@@ -219,6 +219,14 @@ export class AppComponent implements OnInit {
       lightA
     );
     this.configurator.materialLibrary.add('LIGHT_A', lightA);
+    this.configurator.controller.environment.texture.subscribe((x) => {
+      lightA.envMap = x;
+    });
+
+    lightA.refractionRatio = 0.985;
+    lightA.envMapIntensity = 0.9;
+    lightA.clearcoat = 1;
+    lightA.ior = 0.9;
   }
 
   ngOnInit() {

@@ -65,7 +65,7 @@ export class ConfiguratorService {
     this.eventHandler = new EventHandler();
 
     //Create general purpose controller
-    this.controller = new Controller(renderer, camera, 'assets/studio_1k.exr');
+    this.controller = new Controller(renderer, camera, 'assets/hilly_terrain_01_1k.exr');
 
     //Setup event dispatcher
     this.controller.raycaster.result.subscribe(x => {

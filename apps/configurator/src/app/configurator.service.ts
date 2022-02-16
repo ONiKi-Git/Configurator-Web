@@ -58,14 +58,14 @@ export class ConfiguratorService {
       renderer
     ).addOrbitControls(false, true, true);
 
+   //Create general purpose controller
+   this.controller = new Controller(renderer, camera, 'assets/hilly_terrain_01_1k.exr');
+
     //Create Libraries
     this.textureLibrary = new TextureLibrary();
-    this.materialLibrary = new MaterialLibrary();
+    this.materialLibrary = new MaterialLibrary(this.controller, this.textureLibrary);
     this.meshLibrary = new MeshLibrary(this.loadingManager);
     this.eventHandler = new EventHandler();
-
-    //Create general purpose controller
-    this.controller = new Controller(renderer, camera, 'assets/hilly_terrain_01_1k.exr');
 
     //Setup event dispatcher
     this.controller.raycaster.result.subscribe(x => {
@@ -74,25 +74,5 @@ export class ConfiguratorService {
 
     renderer.setSize(this.canvas!.offsetWidth, this.canvas!.offsetHeight);
     this.canvas?.appendChild(this.controller.renderer.domElement);
-  }
-
-  public loadModel(url: string, onProgress: (p: number) => void = () => {}) {
-    const loadedGroup = this.meshLibrary.load(
-      url.match(/([^\/]+)(?=\.\w+$)/)![0],
-      url,
-      (progress) => {
-        onProgress(progress);
-      }
-    );
-
-    loadedGroup.subscribe((m) => {
-      m.traverse((x) => {
-        if (x instanceof Mesh) {
-          x.rotation.copy(m.rotation);
-        }
-      });
-    });
-
-    return loadedGroup;
   }
 }

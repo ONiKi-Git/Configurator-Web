@@ -17,7 +17,7 @@ export class Controller {
     this.scene.add(camera);
 
     this.environment = new Environment(renderer, url);
-    this.postProcess = new Bloom(renderer, this.scene, camera, {radius: 0.5, strength: 3, threshold: 0.05});
+    this.postProcess = new Bloom(renderer, this.scene, camera, {radius: 0.5, strength: 3, threshold: 0.8});
     this.raycaster = new RaycastHandler(this);
 
     this.updateScene();

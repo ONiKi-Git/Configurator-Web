@@ -1,7 +1,7 @@
 import { Controller } from './controller';
 import * as THREE from 'three';
 import { Vector2 } from 'three';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 export class RaycastHandler extends THREE.Raycaster {
   mousePosition: Vector2 = new Vector2();
@@ -22,7 +22,7 @@ export class RaycastHandler extends THREE.Raycaster {
       this.controller.scene.children,
       true
     );
-
+    
     if (intersects.length !== 0) {
       this.result.next(intersects[0].object);
     }

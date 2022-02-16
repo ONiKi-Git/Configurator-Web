@@ -1,6 +1,6 @@
 import { ReplaySubject } from 'rxjs';
 import * as THREE from 'three';
-import { LoadingManager, Texture, TextureLoader } from 'three';
+import { LoadingManager, sRGBEncoding, Texture, TextureLoader } from 'three';
 
 interface TextureData {
   texture?: THREE.Texture;
@@ -30,7 +30,8 @@ export class TextureLibrary {
     name: string,
     url: string,
     textureType: TextureType,
-    material?: THREE.MeshPhysicalMaterial
+    material?: THREE.MeshPhysicalMaterial,
+    srgb: boolean = false
   ) {
     var subject = new ReplaySubject<Texture>();
 
@@ -41,6 +42,10 @@ export class TextureLibrary {
         (texture) => {
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
+
+          if(srgb){
+            texture.encoding = sRGBEncoding;
+          }
           this.data.add({ texture: texture, url: url, name: name });
           subject.next(texture);
         },

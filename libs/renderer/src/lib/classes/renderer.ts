@@ -4,7 +4,7 @@ export class Renderer extends THREE.WebGLRenderer {
   constructor(
     width: number,
     height: number,
-    toneMapping: THREE.ToneMapping = THREE.ACESFilmicToneMapping
+    toneMapping: THREE.ToneMapping = THREE.ReinhardToneMapping
   ) {
     super();
 
@@ -12,5 +12,6 @@ export class Renderer extends THREE.WebGLRenderer {
     this.setSize(width, height);
     this.shadowMap.enabled = true;
     this.toneMapping = toneMapping;
+    this.physicallyCorrectLights = true;
   }
 }

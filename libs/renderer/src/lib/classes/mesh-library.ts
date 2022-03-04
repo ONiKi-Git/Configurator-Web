@@ -1,5 +1,5 @@
 import { ReplaySubject } from 'rxjs';
-import { Group, LoadingManager } from 'three';
+import { Group, LoadingManager, Mesh } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 interface MeshData {
@@ -34,6 +34,11 @@ export class MeshLibrary {
         .then((gltf) => {
           this.data.add({ group: gltf.scene, url: url, name: name });
           gltf.scene.name = name;
+          gltf.scene.traverse(x => {
+            if(x instanceof Mesh) {
+              x.geometry.computeBoundingBox();
+            }
+          })
           subject.next(gltf.scene);
         });
     } else {

@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { DynamicMesh, TextureType } from '@torbenvanassche/threejswrapper';
 import * as THREE from 'three';
 import {
+  BoxBufferGeometry,
+  HemisphereLight,
   MathUtils,
   Mesh,
+  MeshPhongMaterial,
   MeshPhysicalMaterial,
   Vector3,
 } from 'three';
@@ -27,7 +30,7 @@ export class AppComponent implements OnInit {
 
   initBody() {
     this.configurator.meshLibrary
-      .load('Body_Basic', 'assets/meshes/Seperate_Body_Basic.gltf')
+      .load('Body_Basic', 'assets/meshes/Seperate_Body_Basic.glb')
       .subscribe((object) => {
         //Get the loaded geometry
         object.traverse((mesh) => {
@@ -35,9 +38,9 @@ export class AppComponent implements OnInit {
             this.body = new DynamicMesh(
               mesh.geometry,
               this.configurator.materialLibrary.get('BODY_BASIC')!,
-              new Vector3(0, 0, 0)
+              new Vector3(0, 0, 0),
+              new Vector3(Math.PI / 2, 0, 0)
             );
-            this.body.scale.setScalar(0.01);
             this.body.addOption('Body_Basic', {
               geometry: mesh.geometry,
               material: this.configurator.materialLibrary.get('BODY_BASIC')!,
@@ -53,7 +56,7 @@ export class AppComponent implements OnInit {
 
         //add alterative options
         this.configurator.meshLibrary
-          .load('Body_Strong', 'assets/meshes/Seperate_Body_Strong.gltf')
+          .load('Body_Strong', 'assets/meshes/Seperate_Body_Strong.glb')
           .subscribe((object) => {
             object.traverse((mesh) => {
               if (mesh instanceof Mesh) {
@@ -71,7 +74,7 @@ export class AppComponent implements OnInit {
 
   initLegs() {
     this.configurator.meshLibrary
-      .load('Legs_Roller', 'assets/meshes/Seperate_Legs_Roller.gltf')
+      .load('Legs_Roller', 'assets/meshes/Seperate_Legs_Roller.glb')
       .subscribe((object) => {
         //Get the loaded geometry
         object.traverse((mesh) => {
@@ -79,9 +82,9 @@ export class AppComponent implements OnInit {
             this.legs = new DynamicMesh(
               mesh.geometry,
               this.configurator.materialLibrary.get('LEGS_ROLLER')!,
-              new Vector3(0, -0.32, 0)
+              new Vector3(0, -0.32, 0),
+              new Vector3(Math.PI / 2, 0, 0)
             );
-            this.legs.scale.setScalar(0.01);
             this.legs.addOption('Legs_Roller', {
               geometry: mesh.geometry,
               material: this.configurator.materialLibrary.get('LEGS_ROLLER')!,
@@ -98,13 +101,13 @@ export class AppComponent implements OnInit {
 
     //add alterative options
     this.configurator.meshLibrary
-      .load('Legs_Long', 'assets/meshes/Seperate_Legs_Long.gltf')
+      .load('Legs_Long', 'assets/meshes/Seperate_Legs_Long.glb')
       .subscribe((object) => {
         object.traverse((mesh) => {
           if (mesh instanceof Mesh) {
             this.legs.addOption('Legs_Long', {
               geometry: mesh.geometry,
-              material: this.configurator.materialLibrary.get("LEGS_LONG")!,
+              material: this.configurator.materialLibrary.get('LEGS_LONG')!,
               offset: new Vector3(0, -0.58, 0),
             });
           }
@@ -112,13 +115,13 @@ export class AppComponent implements OnInit {
       });
 
     this.configurator.meshLibrary
-      .load('Legs_Short', 'assets/meshes/Seperate_Legs_Short.gltf')
+      .load('Legs_Short', 'assets/meshes/Seperate_Legs_Short.glb')
       .subscribe((object) => {
         object.traverse((mesh) => {
           if (mesh instanceof Mesh) {
             this.legs.addOption('Legs_Short', {
               geometry: mesh.geometry,
-              material: this.configurator.materialLibrary.get("LEGS_SHORT")!,
+              material: this.configurator.materialLibrary.get('LEGS_SHORT')!,
               offset: new Vector3(0, -0.32, 0),
             });
           }
@@ -136,7 +139,8 @@ export class AppComponent implements OnInit {
             this.head = new DynamicMesh(
               mesh.geometry,
               this.configurator.materialLibrary.get('LIGHT_A')!,
-              new Vector3(0, 0.28, 0)
+              new Vector3(0, 0.28, 0),
+              new Vector3(Math.PI / 2, 0, 0)
             );
 
             this.head.rotation.set(MathUtils.degToRad(-10), 0, 0);
@@ -193,11 +197,11 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Light_A/',
       [
         {
-          path: 'LIGHT_A_Base_Color.PNG',
+          path: 'LIGHT_A_Base_Color.png',
           textureType: TextureType.DIFFUSE,
         },
         {
-          path: 'LIGHT_A_Metallic.PNG',
+          path: 'LIGHT_A_Metallic.png',
           textureType: TextureType.METAL,
         },
         {
@@ -205,11 +209,11 @@ export class AppComponent implements OnInit {
           textureType: TextureType.OPACITY,
         },
         {
-          path: 'LIGHT_A_Emissive.PNG',
+          path: 'LIGHT_A_Emissive.png',
           textureType: TextureType.EMISSIVE,
         },
         {
-          path: 'LIGHT_A_Roughness.PNG',
+          path: 'LIGHT_A_Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ],
@@ -221,11 +225,11 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Light_B/',
       [
         {
-          path: 'LIGHT_B_Base_Color.PNG',
+          path: 'LIGHT_B_Base_Color.png',
           textureType: TextureType.DIFFUSE,
         },
         {
-          path: 'LIGHT_B_Metallic.PNG',
+          path: 'LIGHT_B_Metallic.png',
           textureType: TextureType.METAL,
         },
         {
@@ -233,11 +237,11 @@ export class AppComponent implements OnInit {
           textureType: TextureType.OPACITY,
         },
         {
-          path: 'LIGHT_B_Emissive.PNG',
+          path: 'LIGHT_B_Emissive.png',
           textureType: TextureType.EMISSIVE,
         },
         {
-          path: 'LIGHT_B_Roughness.PNG',
+          path: 'LIGHT_B_Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ],
@@ -249,23 +253,23 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Light_C/',
       [
         {
-          path: 'LIGHT_C_Base_Color.PNG',
+          path: 'LIGHT_C_Base_Color.png',
           textureType: TextureType.DIFFUSE,
         },
         {
-          path: 'LIGHT_C_Metallic.PNG',
+          path: 'LIGHT_C_Metallic.png',
           textureType: TextureType.METAL,
         },
         {
-          path: 'LIGHT_C_Opacity.PNG',
+          path: 'LIGHT_C_Opacity.png',
           textureType: TextureType.OPACITY,
         },
         {
-          path: 'LIGHT_C_Emissive.PNG',
+          path: 'LIGHT_C_Emissive.png',
           textureType: TextureType.EMISSIVE,
         },
         {
-          path: 'LIGHT_C_Roughness.PNG',
+          path: 'LIGHT_C_Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ],
@@ -277,20 +281,20 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Body_Basic/',
       [
         {
-          path: 'BODY_BASIC_Base_Color.png',
+          path: 'BaseColor.png',
           textureType: TextureType.DIFFUSE,
           srgb: true,
         },
         {
-          path: 'BODY_BASIC_Metallic.png',
+          path: 'Metallic.png',
           textureType: TextureType.METAL,
         },
         {
-          path: 'BODY_BASIC_Normal.png',
+          path: 'Normal.png',
           textureType: TextureType.NORMAL,
         },
         {
-          path: 'BODY_BASIC_Roughness.png',
+          path: 'Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ]
@@ -301,20 +305,20 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Body_Strong/',
       [
         {
-          path: 'BODY_STRONG_Base_Color.png',
+          path: 'BaseColor.png',
           textureType: TextureType.DIFFUSE,
           srgb: true,
         },
         {
-          path: 'BODY_STRONG_Metallic.png',
+          path: 'Metallic.png',
           textureType: TextureType.METAL,
         },
         {
-          path: 'BODY_STRONG_Normal.png',
+          path: 'Normal.png',
           textureType: TextureType.NORMAL,
         },
         {
-          path: 'BODY_STRONG_Roughness.png',
+          path: 'Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ]
@@ -325,20 +329,20 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Legs_Roller/',
       [
         {
-          path: 'LEGS_ROLLER_Base_Color.png',
+          path: 'BaseColor.png',
           textureType: TextureType.DIFFUSE,
           srgb: true,
         },
         {
-          path: 'LEGS_ROLLER_Metallic.png',
+          path: 'Metallic.png',
           textureType: TextureType.METAL,
         },
         {
-          path: 'LEGS_ROLLER_Normal.png',
+          path: 'Normal.png',
           textureType: TextureType.NORMAL,
         },
         {
-          path: 'LEGS_ROLLER_Roughness.png',
+          path: 'Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ]
@@ -349,44 +353,44 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Legs_Short/',
       [
         {
-          path: 'LEGS_SHORT_Base_Color.png',
+          path: 'BaseColor.png',
           textureType: TextureType.DIFFUSE,
           srgb: true,
         },
         {
-          path: 'LEGS_SHORT_Metallic.png',
+          path: 'Metallic.png',
           textureType: TextureType.METAL,
         },
         {
-          path: 'LEGS_SHORT_Normal.png',
+          path: 'Normal.png',
           textureType: TextureType.NORMAL,
         },
         {
-          path: 'LEGS_SHORT_Roughness.png',
+          path: 'Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ]
     );
-    
+
     this.configurator.materialLibrary.create(
       'LEGS_LONG',
       basePath + 'Seperate_Legs_Long/',
       [
         {
-          path: 'LEGS_LONG_Base_Color.png',
+          path: 'BaseColor.png',
           textureType: TextureType.DIFFUSE,
           srgb: true,
         },
         {
-          path: 'LEGS_LONG_Metallic.png',
+          path: 'Metallic.png',
           textureType: TextureType.METAL,
         },
         {
-          path: 'LEGS_LONG_Normal.png',
+          path: 'Normal.png',
           textureType: TextureType.NORMAL,
         },
         {
-          path: 'LEGS_LONG_Roughness.png',
+          path: 'Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ]
@@ -397,16 +401,19 @@ export class AppComponent implements OnInit {
     this.initBody();
     this.initHead();
     this.initLegs();
-  }  
+  }
 
   ngOnInit() {
     this.configurator.initialize(new Vector3(-0.8, 1.1, 1));
 
-    this.setupRobot();
     this.setupMaterials();
+    this.setupRobot();
 
-    this.configurator.controller.raycaster.result.subscribe(x => {
+    let c = new Mesh(new BoxBufferGeometry());
+    this.configurator.controller.scene.add(c);
+
+    this.configurator.controller.raycaster.result.subscribe((x) => {
       console.log(x);
-    })
+    });
   }
 }

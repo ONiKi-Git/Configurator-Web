@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { BufferGeometry, Material, Mesh, Vector3 } from 'three';
+import { BufferGeometry, Material, Mesh, Vector3, Box3Helper } from 'three';
 
 interface MeshInfo {
   geometry: BufferGeometry;
@@ -17,12 +17,16 @@ export class DynamicMesh extends Mesh {
     public geometry: BufferGeometry,
     public material: Material,
     position: Vector3,
+    rotation: Vector3,
     name: string = '',
   ) {
     super();
 
     this.name = name;
     this.position.set(position.x, position.y, position.z);
+    this.rotation.setFromVector3(rotation);
+
+    this.geometry.computeBoundingBox();
   }
 
   addOption(id: string, meshInfo: MeshInfo) {

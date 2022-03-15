@@ -8,34 +8,28 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'configurator2d';
 
-  img: string = "assets/2700K_Double_A_Black.png";
+  img: string = "assets/BULBBOT_A-BASIC-LONG.jpg";
 
-  temperature: string = "2700K";
-  color: string = "Black";
-  type: string = "A";
-  amount: string = "Double"
+  lampType: string = "A";
+  upperType: string = "BASIC";
+  lowerType: string = "LONG";
 
   updateValue() {
-    this.img = `assets/${this.temperature}_${this.amount}_${this.type}_${this.color}.png`;
+    this.img = `assets/BULBBOT_${this.lampType}-${this.upperType}-${this.lowerType}.jpg`;
   }
 
-  setTemperature(s: string) {
-    this.temperature = s;
+  setLamp(s: string) {
+    this.lampType = s;
     this.updateValue();
   }
 
-  setColor(s: string) {
-    this.color = s;
+  setUpper(s: string) {
+    this.upperType = s;
     this.updateValue();
   }
 
-  setType(s: string) {
-    this.type = s;
-    this.updateValue();
-  }
-
-  setAmount(s: string) {
-    this.amount = s;
+  setLower(s: string) {
+    this.lowerType = s;
     this.updateValue();
   }
 }

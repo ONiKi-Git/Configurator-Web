@@ -4,18 +4,15 @@
   </div>
   
   <div style="width: 15%;">
-    <button style="height: 20px; width: 50%;" (click)="setTemperature('2700K')">2700K</button>
-    <button style="height: 20px; width: 50%; margin-bottom: 10px;" (click)="setTemperature('5000K')">5000K</button>
+    <button style="height: 20px; width: 33%;" (click)="setLamp('A')">A</button>
+    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setLamp('B')">B</button>
+    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setLamp('C')">C</button>
 
-    <button style="height: 20px; width: 33%;" (click)="setColor('Black')">Black</button>
-    <button style="height: 20px; width: 33%;" (click)="setColor('Copper')">Copper</button>
-    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setColor('White')">White</button>
+    <button style="height: 20px; width: 50%;" (click)="setUpper('BASIC')">BASIC</button>
+    <button style="height: 20px; width: 50%;" (click)="setUpper('STRONG')">STRONG</button>
 
-    <button style="height: 20px; width: 50%;" (click)="setAmount('Double')">Double</button>
-    <button style="height: 20px; width: 50%; margin-bottom: 10px;" (click)="setAmount('Solo')">Solo</button>
-
-    <button style="height: 20px; width: 33%;" (click)="setType('A')">A</button>
-    <button style="height: 20px; width: 33%;" (click)="setType('B')">B</button>
-    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setType('C')">C</button>
+    <button style="height: 20px; width: 33%;" (click)="setLower('LONG')">LONG</button>
+    <button style="height: 20px; width: 33%;" (click)="setLower('ROLLER')">ROLLER</button>
+    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setLower('SHORT')">SHORT</button>
   </div>
 </div>

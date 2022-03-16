@@ -43,6 +43,9 @@ export class DynamicMesh extends Mesh {
       this.geometry = entry.geometry;
       this.material = entry.material;
 
+      this.castShadow = true;
+      this.receiveShadow = true;
+
       if(entry.offset === undefined) {
         entry.offset = new Vector3();
       }

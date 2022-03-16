@@ -17,7 +17,7 @@ export class Controller {
     this.scene.add(camera);
 
     this.environment = new Environment(renderer, url);
-    this.postProcess = new Bloom(renderer, this.scene, camera, {radius: 0.5, strength: 3, threshold: 0.8});
+    //this.postProcess = new Bloom(renderer, this.scene, camera, {radius: 0.5, strength: 3, threshold: 0.8});
     this.raycaster = new RaycastHandler(this);
 
     this.updateScene();
@@ -26,10 +26,12 @@ export class Controller {
   updateScene = () => {
     requestAnimationFrame(this.updateScene);
 
-    this.postProcess.update();
+    if (this.postProcess) this.postProcess.update();
 
     this.camera.layers.enableAll();
     this.renderer.setClearColor(0x404040);
-    this.postProcess.finalComposer.render();
+    if (this.postProcess) this.postProcess.finalComposer.render();
+    else this.renderer.render(this.scene, this.camera);
+    
   };
 }

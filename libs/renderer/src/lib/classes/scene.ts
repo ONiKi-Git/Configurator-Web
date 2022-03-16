@@ -13,10 +13,15 @@ export class Scene extends THREE.Scene {
     const dirLight = new THREE.SpotLight(0xffa95c, 1);
     dirLight.name = 'Directional Light';
     dirLight.castShadow = true;
-    dirLight.position.set(10, 10, 10);
+    dirLight.position.set(1, 1, 1);
+    dirLight.shadow.mapSize = new THREE.Vector2(512, 512);
+    dirLight.shadow.camera.near = 1;
+    dirLight.shadow.camera.far = 3;
     this.add(dirLight);
 
-    const ambientLight = new THREE.HemisphereLight(0xffffff, 0x080820, 6);
+    this.add(new THREE.CameraHelper(dirLight.shadow.camera))
+
+    const ambientLight = new THREE.HemisphereLight(0xffffff, 0x080820, 2);
     ambientLight.name = 'Ambient Light';
     this.add(ambientLight);
   }
@@ -30,6 +35,7 @@ export class Scene extends THREE.Scene {
       } else {
         this.data.set(element.name, element);
       }
+
       super.add(element);
     });
 

@@ -9,7 +9,9 @@ import {
   MeshPhongMaterial,
   MeshPhysicalMaterial,
   Vector3,
+  WebGLCubeRenderTarget,
 } from 'three';
+import { degToRad } from 'three/src/math/MathUtils';
 import { ConfiguratorService } from './configurator.service';
 
 @Component({
@@ -26,7 +28,7 @@ export class AppComponent implements OnInit {
   head: DynamicMesh;
   legs: DynamicMesh;
 
-  constructor(public configurator: ConfiguratorService) {}
+  constructor(public configurator: ConfiguratorService) { }
 
   initBody() {
     this.configurator.meshLibrary
@@ -197,11 +199,11 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Light_A/',
       [
         {
-          path: 'LIGHT_A_Base_Color.png',
+          path: 'LIGHT_A_Base_Color.PNG',
           textureType: TextureType.DIFFUSE,
         },
         {
-          path: 'LIGHT_A_Metallic.png',
+          path: 'LIGHT_A_Metallic.PNG',
           textureType: TextureType.METAL,
         },
         {
@@ -209,11 +211,11 @@ export class AppComponent implements OnInit {
           textureType: TextureType.OPACITY,
         },
         {
-          path: 'LIGHT_A_Emissive.png',
+          path: 'LIGHT_A_Emissive.PNG',
           textureType: TextureType.EMISSIVE,
         },
         {
-          path: 'LIGHT_A_Roughness.png',
+          path: 'LIGHT_A_Roughness.PNG',
           textureType: TextureType.ROUGHNESS,
         },
       ],
@@ -225,11 +227,11 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Light_B/',
       [
         {
-          path: 'LIGHT_B_Base_Color.png',
+          path: 'LIGHT_B_Base_Color.PNG',
           textureType: TextureType.DIFFUSE,
         },
         {
-          path: 'LIGHT_B_Metallic.png',
+          path: 'LIGHT_B_Metallic.PNG',
           textureType: TextureType.METAL,
         },
         {
@@ -237,11 +239,11 @@ export class AppComponent implements OnInit {
           textureType: TextureType.OPACITY,
         },
         {
-          path: 'LIGHT_B_Emissive.png',
+          path: 'LIGHT_B_Emissive.PNG',
           textureType: TextureType.EMISSIVE,
         },
         {
-          path: 'LIGHT_B_Roughness.png',
+          path: 'LIGHT_B_Roughness.PNG',
           textureType: TextureType.ROUGHNESS,
         },
       ],
@@ -253,11 +255,11 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Light_C/',
       [
         {
-          path: 'LIGHT_C_Base_Color.png',
+          path: 'LIGHT_C_Base_Color.PNG',
           textureType: TextureType.DIFFUSE,
         },
         {
-          path: 'LIGHT_C_Metallic.png',
+          path: 'LIGHT_C_Metallic.PNG',
           textureType: TextureType.METAL,
         },
         {
@@ -265,11 +267,11 @@ export class AppComponent implements OnInit {
           textureType: TextureType.OPACITY,
         },
         {
-          path: 'LIGHT_C_Emissive.png',
+          path: 'LIGHT_C_Emissive.PNG',
           textureType: TextureType.EMISSIVE,
         },
         {
-          path: 'LIGHT_C_Roughness.png',
+          path: 'LIGHT_C_Roughness.PNG',
           textureType: TextureType.ROUGHNESS,
         },
       ],
@@ -395,30 +397,6 @@ export class AppComponent implements OnInit {
         },
       ]
     );
-
-    this.configurator.materialLibrary.create(
-      'ENV',
-      basePath + 'Environment/',
-      [
-        {
-          path: 'BaseColor.png',
-          textureType: TextureType.DIFFUSE,
-          srgb: true,
-        },
-        {
-          path: 'Height.png',
-          textureType: TextureType.HEIGHT,
-        },
-        {
-          path: 'Normal.png',
-          textureType: TextureType.NORMAL,
-        },
-        {
-          path: 'Roughness.png',
-          textureType: TextureType.ROUGHNESS,
-        },
-      ]
-    );
   }
 
   setupRobot() {
@@ -428,13 +406,42 @@ export class AppComponent implements OnInit {
   }
 
   setupScene() {
+    this.configurator.materialLibrary.create(
+      'ENV',
+      'assets/textures/' + 'Environment/',
+      [
+        {
+          path: 'BaseColor.png',
+          textureType: TextureType.DIFFUSE,
+          srgb: true,
+        },
+        {
+          path: 'Normal.png',
+          textureType: TextureType.NORMAL,
+        },
+        {
+          path: 'Height.png',
+          textureType: TextureType.HEIGHT,
+        },
+        {
+          path: 'Roughness.png',
+          textureType: TextureType.ROUGHNESS,
+        },
+      ]
+    );
+
     this.configurator.meshLibrary
-      .load('Body_Basic', 'assets/meshes/Seperate_Body_Basic.glb')
+      .load('ENV', 'assets/meshes/Environment.gltf')
       .subscribe((object) => {
         //Get the loaded geometry
         object.traverse((mesh) => {
           if (mesh instanceof Mesh) {
+            mesh.scale.setScalar(0.001);
+            mesh.position.set(0, -0.32, 0);
+            mesh.rotateY(degToRad(20));
             this.configurator.controller.scene.add(mesh);
+            mesh.material = this.configurator.materialLibrary.get('ENV')
+            mesh.receiveShadow = true;
           }
         });
       });

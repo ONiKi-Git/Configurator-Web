@@ -395,6 +395,30 @@ export class AppComponent implements OnInit {
         },
       ]
     );
+
+    this.configurator.materialLibrary.create(
+      'ENV',
+      basePath + 'Environment/',
+      [
+        {
+          path: 'BaseColor.png',
+          textureType: TextureType.DIFFUSE,
+          srgb: true,
+        },
+        {
+          path: 'Height.png',
+          textureType: TextureType.HEIGHT,
+        },
+        {
+          path: 'Normal.png',
+          textureType: TextureType.NORMAL,
+        },
+        {
+          path: 'Roughness.png',
+          textureType: TextureType.ROUGHNESS,
+        },
+      ]
+    );
   }
 
   setupRobot() {
@@ -403,14 +427,25 @@ export class AppComponent implements OnInit {
     this.initLegs();
   }
 
+  setupScene() {
+    this.configurator.meshLibrary
+      .load('Body_Basic', 'assets/meshes/Seperate_Body_Basic.glb')
+      .subscribe((object) => {
+        //Get the loaded geometry
+        object.traverse((mesh) => {
+          if (mesh instanceof Mesh) {
+            this.configurator.controller.scene.add(mesh);
+          }
+        });
+      });
+  }
+
   ngOnInit() {
     this.configurator.initialize(new Vector3(-0.8, 1.1, 1));
 
+    this.setupScene();
     this.setupMaterials();
     this.setupRobot();
-
-    let c = new Mesh(new BoxBufferGeometry());
-    this.configurator.controller.scene.add(c);
 
     this.configurator.controller.raycaster.result.subscribe((x) => {
       console.log(x);

@@ -15,6 +15,7 @@ export enum TextureType {
   EMISSIVE,
   NORMAL,
   METAL,
+  HEIGHT,
   AO,
 }
 
@@ -84,6 +85,8 @@ export class TextureLibrary {
             material.alphaMap = tex;
             material.transparent = true;
             break;
+            case TextureType.HEIGHT:
+            material.displacementMap = tex;
         }
 
         material.needsUpdate = true;

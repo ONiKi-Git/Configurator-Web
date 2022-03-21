@@ -10,16 +10,15 @@ export class Scene extends THREE.Scene {
   }
 
   private lighting() {
-    const dirLight = new THREE.SpotLight(0xffa95c, 1);
+    const dirLight = new THREE.SpotLight(0xffa95c, 3);
     dirLight.name = 'Directional Light';
-    dirLight.castShadow = true;
-    dirLight.position.set(1, 1, 1);
-    dirLight.shadow.mapSize = new THREE.Vector2(512, 512);
+    dirLight.position.set(1, 1.5, 1);
+    dirLight.shadow.mapSize = new THREE.Vector2(1024, 1024);
     dirLight.shadow.camera.near = 1;
     dirLight.shadow.camera.far = 3;
+    dirLight.castShadow = true;
+    dirLight.shadow.bias = -0.01
     this.add(dirLight);
-
-    this.add(new THREE.CameraHelper(dirLight.shadow.camera))
 
     const ambientLight = new THREE.HemisphereLight(0xffffff, 0x080820, 2);
     ambientLight.name = 'Ambient Light';

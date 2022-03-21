@@ -59,8 +59,8 @@ export class ConfiguratorService {
     ).addOrbitControls(false, true, true);
 
    //Create general purpose controller
-   this.controller = new Controller(renderer, camera, 'assets/hilly_terrain_01_1k.exr');
-   //this.controller = new Controller(renderer, camera, 'assets/Space_Alien_Sky_C.exr');
+   //this.controller = new Controller(renderer, camera, 'assets/hilly_terrain_01_1k.exr');
+   this.controller = new Controller(renderer, camera, 'assets/Space_Alien_Sky_C.exr');
 
     //Create Libraries
     this.textureLibrary = new TextureLibrary();

@@ -12,6 +12,6 @@ export class Renderer extends THREE.WebGLRenderer {
     this.setSize(width, height);
     this.shadowMap.enabled = true;
     this.toneMapping = toneMapping;
-    this.physicallyCorrectLights = true;
+    //this.physicallyCorrectLights = true;
   }
 }

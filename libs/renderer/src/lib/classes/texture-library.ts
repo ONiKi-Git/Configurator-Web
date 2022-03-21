@@ -15,7 +15,7 @@ export enum TextureType {
   EMISSIVE,
   NORMAL,
   METAL,
-  HEIGHT,
+  DISPLACEMENT,
   AO,
 }
 
@@ -31,7 +31,7 @@ export class TextureLibrary {
     name: string,
     url: string,
     textureType: TextureType,
-    material?: THREE.MeshPhysicalMaterial,
+    material?: THREE.MeshStandardMaterial,
     srgb: boolean = false
   ) {
     var subject = new ReplaySubject<Texture>();
@@ -44,7 +44,7 @@ export class TextureLibrary {
           texture.wrapS = THREE.RepeatWrapping;
           texture.wrapT = THREE.RepeatWrapping;
 
-          if(srgb){
+          if (srgb) {
             texture.encoding = sRGBEncoding;
           }
           this.data.add({ texture: texture, url: url, name: name });
@@ -85,8 +85,10 @@ export class TextureLibrary {
             material.alphaMap = tex;
             material.transparent = true;
             break;
-            case TextureType.HEIGHT:
+          case TextureType.DISPLACEMENT:
             material.displacementMap = tex;
+            material.displacementScale = 1;
+            break;
         }
 
         material.needsUpdate = true;

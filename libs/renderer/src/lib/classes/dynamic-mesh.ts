@@ -27,6 +27,9 @@ export class DynamicMesh extends Mesh {
     this.rotation.setFromVector3(rotation);
 
     this.geometry.computeBoundingBox();
+
+    this.castShadow = true;
+    this.receiveShadow = true;
   }
 
   addOption(id: string, meshInfo: MeshInfo) {
@@ -42,9 +45,6 @@ export class DynamicMesh extends Mesh {
 
       this.geometry = entry.geometry;
       this.material = entry.material;
-
-      this.castShadow = true;
-      this.receiveShadow = true;
 
       if(entry.offset === undefined) {
         entry.offset = new Vector3();

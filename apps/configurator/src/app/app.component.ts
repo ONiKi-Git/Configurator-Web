@@ -8,6 +8,9 @@ import {
   Mesh,
   MeshPhongMaterial,
   MeshPhysicalMaterial,
+  MeshStandardMaterial,
+  Object3D,
+  PlaneBufferGeometry,
   Vector3,
   WebGLCubeRenderTarget,
 } from 'three';
@@ -28,7 +31,9 @@ export class AppComponent implements OnInit {
   head: DynamicMesh;
   legs: DynamicMesh;
 
-  constructor(public configurator: ConfiguratorService) { }
+  bulb: Object3D;
+
+  constructor(public configurator: ConfiguratorService) {}
 
   initBody() {
     this.configurator.meshLibrary
@@ -53,7 +58,7 @@ export class AppComponent implements OnInit {
 
         //add it to the scene
         if (this.body) {
-          this.configurator.controller.scene.add(this.body);
+          this.bulb.add(this.body);
         }
 
         //add alterative options
@@ -97,7 +102,7 @@ export class AppComponent implements OnInit {
 
         //add it to the scene
         if (this.legs) {
-          this.configurator.controller.scene.add(this.legs);
+          this.bulb.add(this.legs);
         }
       });
 
@@ -157,7 +162,7 @@ export class AppComponent implements OnInit {
 
         //add it to the scene
         if (this.head) {
-          this.configurator.controller.scene.add(this.head);
+          this.bulb.add(this.head);
         }
 
         //add alterative options
@@ -199,11 +204,11 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Light_A/',
       [
         {
-          path: 'LIGHT_A_Base_Color.PNG',
+          path: 'LIGHT_A_Base_Color.png',
           textureType: TextureType.DIFFUSE,
         },
         {
-          path: 'LIGHT_A_Metallic.PNG',
+          path: 'LIGHT_A_Metallic.png',
           textureType: TextureType.METAL,
         },
         {
@@ -211,15 +216,15 @@ export class AppComponent implements OnInit {
           textureType: TextureType.OPACITY,
         },
         {
-          path: 'LIGHT_A_Emissive.PNG',
+          path: 'LIGHT_A_Emissive.png',
           textureType: TextureType.EMISSIVE,
         },
         {
-          path: 'LIGHT_A_Roughness.PNG',
+          path: 'LIGHT_A_Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ],
-      { refractionRatio: 0.985, envMapIntensity: 0.9, clearcoat: 1, ior: 0.9 }
+      { refractionRatio: 0.985, envMapIntensity: 0.6, clearcoat: 1, ior: 0.9 }
     );
 
     this.configurator.materialLibrary.create(
@@ -227,11 +232,11 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Light_B/',
       [
         {
-          path: 'LIGHT_B_Base_Color.PNG',
+          path: 'LIGHT_B_Base_Color.png',
           textureType: TextureType.DIFFUSE,
         },
         {
-          path: 'LIGHT_B_Metallic.PNG',
+          path: 'LIGHT_B_Metallic.png',
           textureType: TextureType.METAL,
         },
         {
@@ -239,11 +244,11 @@ export class AppComponent implements OnInit {
           textureType: TextureType.OPACITY,
         },
         {
-          path: 'LIGHT_B_Emissive.PNG',
+          path: 'LIGHT_B_Emissive.png',
           textureType: TextureType.EMISSIVE,
         },
         {
-          path: 'LIGHT_B_Roughness.PNG',
+          path: 'LIGHT_B_Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ],
@@ -255,11 +260,11 @@ export class AppComponent implements OnInit {
       basePath + 'Seperate_Light_C/',
       [
         {
-          path: 'LIGHT_C_Base_Color.PNG',
+          path: 'LIGHT_C_Base_Color.png',
           textureType: TextureType.DIFFUSE,
         },
         {
-          path: 'LIGHT_C_Metallic.PNG',
+          path: 'LIGHT_C_Metallic.png',
           textureType: TextureType.METAL,
         },
         {
@@ -267,11 +272,11 @@ export class AppComponent implements OnInit {
           textureType: TextureType.OPACITY,
         },
         {
-          path: 'LIGHT_C_Emissive.PNG',
+          path: 'LIGHT_C_Emissive.png',
           textureType: TextureType.EMISSIVE,
         },
         {
-          path: 'LIGHT_C_Roughness.PNG',
+          path: 'LIGHT_C_Roughness.png',
           textureType: TextureType.ROUGHNESS,
         },
       ],
@@ -421,7 +426,7 @@ export class AppComponent implements OnInit {
         },
         {
           path: 'Height.png',
-          textureType: TextureType.HEIGHT,
+          textureType: TextureType.DISPLACEMENT,
         },
         {
           path: 'Roughness.png',
@@ -436,11 +441,12 @@ export class AppComponent implements OnInit {
         //Get the loaded geometry
         object.traverse((mesh) => {
           if (mesh instanceof Mesh) {
-            mesh.scale.setScalar(0.001);
+            mesh.scale.setScalar(0.00002);
             mesh.position.set(0, -0.32, 0);
-            mesh.rotateY(degToRad(20));
+            mesh.rotateY(degToRad(190));
             this.configurator.controller.scene.add(mesh);
-            mesh.material = this.configurator.materialLibrary.get('ENV')
+            mesh.material = this.configurator.materialLibrary.get('ENV');
+            (mesh.material as MeshStandardMaterial).side = THREE.DoubleSide;
             mesh.receiveShadow = true;
           }
         });
@@ -450,12 +456,34 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.configurator.initialize(new Vector3(-0.8, 1.1, 1));
 
+    this.bulb = new Object3D();
+    this.configurator.controller.scene.add(this.bulb);
+
     this.setupScene();
     this.setupMaterials();
     this.setupRobot();
 
+    const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(128, {
+      generateMipmaps: true,
+      minFilter: THREE.LinearMipmapLinearFilter,
+    });
+
+    // Create cube camera
+    const cubeCamera = new THREE.CubeCamera(1, 100, cubeRenderTarget);
+    this.configurator.controller.scene.add(cubeCamera);
+
+    //this.configurator.controller.scene.environment = cubeRenderTarget.texture;
+
     this.configurator.controller.raycaster.result.subscribe((x) => {
       console.log(x);
     });
+  }
+
+  updateMeshPosition(value: string) {
+    if (value === 'Legs_Long') {
+      this.bulb.position.set(0, 0.25, 0);
+    } else {
+      this.bulb.position.set(0, 0, 0);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DynamicMesh } from '@torbenvanassche/threejswrapper';
 
 @Component({
@@ -12,6 +12,8 @@ export class SelectorComponent implements OnInit {
   @Input() default: string;
   selected: string = "";
 
+  @Output() change = new EventEmitter<string>();
+
   constructor() {}
 
   ngOnInit(): void {
@@ -20,5 +22,6 @@ export class SelectorComponent implements OnInit {
 
   updateValue() {
     this.target.setOption(this.selected)
+    this.change.emit(this.selected);
   }
 }

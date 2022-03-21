@@ -6,9 +6,9 @@
         <mat-expansion-panel-header>
           <mat-panel-title> EXAMPLE TITLE </mat-panel-title>
         </mat-expansion-panel-header>
-        <oniki-selector [target]="head" default="Light_A"></oniki-selector>
-        <oniki-selector [target]="body" default="Body_Basic"></oniki-selector>
-        <oniki-selector [target]="legs" default="Legs_Roller"></oniki-selector>
+        <oniki-selector [target]="head" default="Light_A" (change)="updateMeshPosition($event)"></oniki-selector>
+        <oniki-selector [target]="body" default="Body_Basic" (change)="updateMeshPosition($event)"></oniki-selector>
+        <oniki-selector [target]="legs" default="Legs_Roller" (change)="updateMeshPosition($event)"></oniki-selector>
       </mat-expansion-panel>
 
       <button

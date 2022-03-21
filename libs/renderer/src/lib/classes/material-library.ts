@@ -34,6 +34,7 @@ export class MaterialLibrary {
     textures: TextureData[],
     params?: MeshPhysicalMaterialParameters
   ) {
+    
     const material = new MeshPhysicalMaterial(params);
     material.name = name;
     textures.forEach((element) => {
@@ -48,9 +49,6 @@ export class MaterialLibrary {
         material,
         element.srgb
       );
-    });
-    this.controller.environment.texture.subscribe((x) => {
-      material.envMap = x;
     });
 
     this.add(name, material);

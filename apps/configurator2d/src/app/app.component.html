@@ -1,18 +1,19 @@
-<div style="display: flex;">
-  <div style="height: 100vh; width: 85%;" class="bg">
-    <img src="{{img}}" style="width: 100%;">
-  </div>
-  
-  <div style="width: 15%;">
-    <button style="height: 20px; width: 33%;" (click)="setLamp('A')">A</button>
-    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setLamp('B')">B</button>
-    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setLamp('C')">C</button>
+<div style="display: flex; max-width: 100vw; max-height: 100vh;">
+  <img src="{{img}}" style="width: 100%;">
 
-    <button style="height: 20px; width: 50%;" (click)="setUpper('BASIC')">BASIC</button>
-    <button style="height: 20px; width: 50%;" (click)="setUpper('STRONG')">STRONG</button>
+  <div class="ui" style="min-width: 35%;">
+    <div class="title">Head type</div>
+    <button style="width: 31%;" (click)="setLamp('A')"><span>A</span></button>
+    <button style="width: 31%;" (click)="setLamp('B')"><span>B</span></button>
+    <button style="width: 32%;" (click)="setLamp('C')"><span>C</span></button>
 
-    <button style="height: 20px; width: 33%;" (click)="setLower('LONG')">LONG</button>
-    <button style="height: 20px; width: 33%;" (click)="setLower('ROLLER')">ROLLER</button>
-    <button style="height: 20px; width: 33%; margin-bottom: 10px;" (click)="setLower('SHORT')">SHORT</button>
+    <div class="title">Body type</div>
+    <button style="width: 48%;" (click)="setUpper('BASIC')"><span>BASIC</span></button>
+    <button style="width: 48%;" (click)="setUpper('STRONG')"><span>STRONG</span></button>
+
+    <div class="title">Legs type</div>
+    <button style="width: 31%;" (click)="setLower('LONG')"><span>LONG</span></button>
+    <button style="width: 31%;" (click)="setLower('ROLLER')"><span>ROLLER</span></button>
+    <button style="width: 32%;" (click)="setLower('SHORT')"><span>SHORT</span></button>
   </div>
 </div>
